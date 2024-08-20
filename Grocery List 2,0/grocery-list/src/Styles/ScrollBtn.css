@@ -1,0 +1,28 @@
+div#progress {
+    background: #03CC65;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    height: 70px;
+    width: 70px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    box-shadow: 5px 5px 5px var(--scroll-btn-box-shadow-color);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1000;
+}
+
+span#progress-value {
+    height: calc(100% - 15px);
+    width: calc(100% - 15px);
+    background: var(--scroll-btn-bg-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    color: var(--scroll-btn-text-color);
+}

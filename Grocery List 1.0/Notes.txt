@@ -1,0 +1,62 @@
+{% if get_flashed_messages() %}
+{% set error_messages = get_flashed_messages(category_filter = "error") %}
+    {% if error_messages %}
+        <div class = "alert alert-danger alert-dismissable mb-0 text-center" role = "alert" style = "top: 0;">
+            {{ error_messages | join(" ") }}
+            <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+        </div>
+    {% endif %}
+    {% set warning_messages = get_flashed_messages(category_filter = "warning") %}
+    {% if warning_messages %}
+        <div class = "alert alert-warning alert-dismissable mb-0 text-center" role = "alert" style = "top: 0;">
+            {{ warning_messages | join(" ") }}
+            <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+        </div>
+    {% endif %}
+    {% set success_messages = get_flashed_messages(category_filter = "success") %}
+    {% if success_messages %}
+    <div class = "alert alert-success alert-dismissable auto-close mb-0 text-center" role = "alert" style = "top: 0;">
+            {{ success_messages | join(" ") }}
+            <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+        </div>
+        {% endif %}
+        {% set danger_messages = get_flashed_messages(category_filter = "danger") %}
+        {% if danger_messages %}
+        <div class = "alert alert-danger alert-dismissable mb-0 text-center" role = "alert" style = "top: 0;">
+            {{ danger_messages | join(" ") }}
+            <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+        </div>
+        {% endif %}
+    {% endif %}
+{% else %}
+    {% if get_flashed_messages() %}
+        {% set error_messages = get_flashed_messages(category_filter = "error") %}
+        {% if error_messages %}
+            <div class = "alert alert-danger alert-dismissable mb-0 text-center" role = "alert" style = "top: 0;">
+                {{ error_messages | join(" ") }}
+                <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+            </div>
+        {% endif %}
+        {% set warning_messages = get_flashed_messages(category_filter = "warning") %}
+        {% if warning_messages %}
+            <div class = "alert alert-warning alert-dismissable mb-0 text-center" role = "alert" style = "top: 0;">
+                {{ warning_messages | join(" ") }}
+                <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+            </div>
+        {% endif %}
+        {% set success_messages = get_flashed_messages(category_filter = "success") %}
+        {% if success_messages %}
+        <div class = "alert alert-success alert-dismissable auto-close mb-0 text-center" role = "alert" style = "top: 0;">
+            {{ success_messages | join(" ") }}
+            <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+        </div>
+        {% endif %}
+        {% set danger_messages = get_flashed_messages(category_filter = "danger") %}
+        {% if danger_messages %}
+            <div class = "alert alert-danger alert-dismissable mb-0 text-center" role = "alert" style = "top: 0;">
+                {{ danger_messages | join(" ") }}
+                <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+            </div>
+        {% endif %}
+    {% endif %}
+{$ endif %}

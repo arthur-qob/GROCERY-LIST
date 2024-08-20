@@ -1,0 +1,58 @@
+:root {
+    --bar-width: 80px;
+    --bar-height: 10px;
+    --bar-gap: 30px;
+    --icon-height: calc(var(--bar-height) * 3 + var(--bar-gap) * 2);
+    --icon-width: var(--icon-height);
+}
+
+button {
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+button {
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    top: 2rem;
+    right: 1rem;
+    background: var(--nav-icon-btn-bg-color);
+    outline: none;
+}
+
+.nav-menu-btn .bars {
+    --x-width: calc(var(--icon-height) * 1.41421356237);
+
+    fill: var(--nav-icon-fill-color);
+    transition: all 0.3s ease;
+    transform-origin: left center;
+}
+
+.nav-menu-btn.open svg {
+    rotate: 45deg;
+}
+
+.nav-menu-btn.open #bar2 {
+    opacity: 0;
+    width: 0;
+}
+
+.nav-menu-btn.open #bar1 {
+    transform: rotate(90deg) translate(-50%, -15%);
+}
+
+.nav-menu-btn.open #bar3 {
+    transform: translateY(calc((var(--bar-height) + var(--bar-gap) - 5px) * -1));
+}
+
+.nav-menu-btn.open #bar1, .nav-menu-btn.open #bar3 {
+    fill: red;
+}

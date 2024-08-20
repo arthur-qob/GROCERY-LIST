@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class = "my_container container-fluid">
+        <div class = "my_container-title">
+            <h1>New list</h1>
+        </div>
+        <form id = "index-form" action = "/" method = "POST">
+            {% if items %}
+                <table class = "table table-secondary" id = "index-table">
+                    <thead>
+                        <tr>
+                            <th class = "empty-col"></th>
+                            <th class = "col">ID</th>
+                            <th class = "col">Item</th>
+                            <th class = "col">Quantity</th>
+                            <th class = "col">Price</th>
+                            <th class = "col">Subtotal</th>
+                            <th class = "empty-col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id = "grocery-list">
+                        <tr class = "grocery-row">
+                            <td class = "empty-col">
+                                <button class = "btn btn-success add-row-btn" name = "add-row" type = "button">
+                                    <i class = "fa-solid fa-plus"></i>
+                                </button>
+                            </td>
+                            <td class = "index-itemId">--</td>
+                            <td>
+                                <div class = "dropdown">
+                                    <button aria-expanded = "false" class = "dropdown-toggle index-itemSelector" data-bs-toggle = "dropdown" id = "dropdown-toggle" role = "button" type = "button">
+                                        <span>Select an item</span>
+                                    </button>
+                                    <ul class = "dropdown-menu">
+                                        <li class = "dropdown-item"><a href = "/addItems"><i class = "fa-solid fa-plus"></i>  Add item</a></li>
+                                        <li class = "dropdown-divider"></li>
+                                        {% for item in items %}
+                                            <li class = "dropdown-item items" data-value = "{{ item.id }}">{{ item.title }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <input autocomplete = "off" class = "index-input quantity" name = "quantity" type = "number" value = "--" min = "0" required>
+                            </td>
+                            <td>
+                                <input autocomplete = "off" class = "index-input price" name = "price" type = "number" value = "--" min = "0" required>
+                            </td>
+                            <td class = "index-rowSubtotal">R$0,00</td>
+                            <td class = "empty-col">
+                                <button class = "btn btn-danger" name = "delete-item" type = "submit" value = "">
+                                    <i class = "fa-solid fa-trash"></i>    Delete</button>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style = "font-weight: bold;">
+                            <td class = "empty-col"></td>
+                            <td colspan = "3"></td>
+                            <td>Total</td>
+                            <td id = "index-total">R$0,00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div id = "index-btns">
+                    <button class = "btn btn-danger index-btn" name = "reset" type = "reset">
+                        <i class = "fa-solid fa-times"></i>  Reset
+                    </button>
+                    <button class = "btn btn-secondary index-btn" name = "save" type = "submit">
+                        <i class = "fa-solid fa-save"></i>  Save
+                    </button>
+                </div>
+            {% else %}
+                <table class = "table table-secondary">
+                    <thead>
+                        <tr>
+                            <th class = "empty-col"></th>
+                            <th class = "col">ID</th>
+                            <th class = "col">Item</th>
+                            <th class = "col">Quantity</th>
+                            <th class = "col">Price</th>
+                            <th class = "col">Subtotal</th>
+                            <th class = "empty-col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class = "empty-col">
+                                <button class = "btn btn secondary" disabled>
+                                    <i class = "fa-solid fa-plus"></i>
+                                </button>
+                            </td>
+                            <td class = "index-itemId">--</td>
+                            <td>
+                                <select id = "index-itemSelector">
+                                    <option>No items</option>
+                                    <option>
+                                        <button class = "btn btn-secondary" name = "add-item" type = "submit"><i class = "fa-solid fa-plus"></i>  Add item</button>
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class = "index-input" disabled type = "number">
+                            </td>
+                            <td>
+                                <input class = "index-input" disabled type = "number">
+                            </td>
+                            <td>R$0,00</td>
+                            <td class = "empty-col"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style = "font-weight: bold;">
+                            <td class = "empty-col"></td>
+                            <td colspan = "3"></td>
+                            <td>Total</td>
+                            <td>R$0,00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            {% endif %}
+        </form>
+    </div>
+    <script src = "static/js/index.js"></script>
+{% endblock %}

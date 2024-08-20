@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    List
+{% endblock %}
+
+{% block main %}
+    <div class = "my_container container-fluid">
+        <div class = "my_container-title">
+            <h1>Lists</h1>
+        </div>
+        <form action = "/lists" method = "POST">
+            {% if lists %}
+                <table class = "table table-secondary table_active" id = "item-table">
+                    <thead>
+                        <th class = "empty-col"></th>
+                        <th class = "col"></th>
+                        <th class = "col">Title</th>
+                        <th class = "col">Quantity</th>
+                        <th class = "col">Price</th>
+                        <th class = "col">Total</th>
+                        <th class = "empty-col"></th>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td class = "empty-col"></td>
+                                <td>
+                                    <input class = "form-check-input" type = "checkbox" value = "{{ item.id }}"></td>
+                                <td>
+                                    {{ item.title|upper }}</td>
+                                <td>
+                                    <input class = "input-field" id = "index-item-qtty{{ loop.index }}" min = "0" name = "item-qtty" oninput = "calculateTotal()" placeholder = "Quantity" type = "number"></td>
+                                <td>
+                                    <input class = "input-field" id = "index-item-price{{ loop.index }}" min = "0" name = "item-price" oninput = "calculateTotal()" placeholder = "Price" type = "number"></td>
+                                <td id = "total{{ loop.index }}"></td>
+                                <td class = "empty-col-right">
+                                    <button class = "btn btn-danger" name = "delete-item" type = "submit" value = "{{ item.id }}">
+                                        <i class = "fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td class = "empty-col-left">
+                                <button class = "btn btn-secondary" type = "button" data-bs-toggle = "modal" data-bs-target = "#exampleModal">+</button>
+                            </td>
+                            <td>
+                                <input class = "form-check-input" disabled type = "checkbox">
+                            </td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td class = "empty-col"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class = "empty-col"></td>
+                            <td colspan = "3"></td>
+                            <th class = "col">Total:</th>
+                            <th class = "col" id = "total"></th>
+                            <th class = "empty-col"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+                {% else %}
+                <table class = "table table-secondary table-responsive">
+                    <thead>
+                        <th class = "empty-col"></th>
+                        <th class = "col"></th>
+                        <th class = "col">Title</th>
+                        <th class = "col">Quantity</th>
+                        <th class = "col">Price</th>
+                        <th class = "col">Total</th>
+                        <th class = "empty-col"></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class = "empty-col-left"><button class = "btn btn-secondary" type = "button" data-bs-toggle = "modal" data-bs-target = "#exampleModal">+</button></td>
+                            <td><input class = "form-check-input" disabled type = "checkbox"></td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td class = "empty-col"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class = "empty-col"></td>
+                            <td colspan = "3"></td>
+                            <th class = "col">Total:</th>
+                            <th class = "col">{{ 0|brl }}</th>
+                            <td class = "empty-col"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            {% endif %}
+                <div aria-hidden = "true" aria-labelledby = "exampleModalLabel" class = "modal fade" id = "exampleModal" tabindex = "-1">
+                    <div class = "modal-dialog">
+                        <div class = "modal-content">
+                            <div class = "modal-header">
+                                <h1 class = "modal-title fs-5" id = "exampleModalLabel">Select an item</h1>
+                                <button type = "button" class = "btn-close" data-bs-dismiss = "modal" aria-label = "Close"></button>
+                            </div>
+                            <div class = "modal-body">
+                                <form action = "/" method = "POST">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                {% if items %}
+                                                    <td>
+                                                        <select id = "index-modal-item" name = "item" style = "width: 80%; padding: 10px 0; margin: 0 auto; border-left: 0; border-top: 0; border-right: 0; border-bottom: 1px solid #999; background: transparent; outline: none;">
+                                                            <option value = "">Items</option>
+                                                            {% for item in items %}
+                                                                <option value = "{{ item.id }}:{{ item.title }}">{{ item.title }}</option>
+                                                                {% set item = item %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                {% else %}
+                                                    <td>
+                                                        <select style = "width: max-content; padding: 10px 0; border-left: 0; border-top: 0; border-right: 0; border-bottom: 1px solid #999; background: transparent; outline: none;">
+                                                            <option value = "">No items</option>
+                                                        </select>
+                                                    </td>
+                                                {% endif %}
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div class = "modal-footer">
+                                <button type = "button" class = "btn btn-danger" data-bs-dismiss = "modal">Cancel</button>
+                                <button type = "submit" class = "btn btn-secondary" name = "item-selected">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

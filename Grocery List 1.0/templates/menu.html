@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Menu
+{% endblock %}
+
+{% block main %}
+    <div class = "form-box">
+        <div class = "button-box">
+            <div id = "btn"></div>
+            <button class = "toggle-btn" type = "button" onclick = "login()">Log In</button>
+            <button class = "toggle-btn" type = "button" onclick = "signin()">Sign In</button>
+        </div>
+        <form action = "/login" id = "login" method = "POST">
+            <table>
+                <tbody>
+                    <tr>
+                        <td colspan = "2">
+                            <input autocomplete = "off" autofocus class = "input-field" name = "user_credentials" placeholder = "Name or Email" type = "text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan = "2">
+                            <div class = "password-input-field"><input autocomplete = "off" class = "password-field" id = "password-field-1" name = "password" placeholder = "Password" type = "password"><i class = "fa-solid fa-eye-slash eye-icon" id = "eye-icon-1" onclick = "showPassword(1)"></i></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class = "checkbox-input-field"><input class = "check-box" id = "lg-cb-1" name = "remember_me" type = "checkbox" value = "checked"><label for = "lg-cb-1">Remember Me?</label></div>
+                        </td>
+                        <td>
+                            <a href = "/forgot-password" class = "lg-link">Forgot Password?</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class = "form-button" type = "submit">Log In</button>
+                        </td>
+                        <td>
+                            <button class = "form-button" type = "reset">Clear</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <form action = "/signin" id = "signin" method = "POST">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input autocomplete = "off" autofocus class = "input-field" name = "name" placeholder = "Name" type = "text">
+                        </td>
+                        <td>
+                            <input autocomplete = "off" class = "input-field" name = "last_name" placeholder = "Last Name" type = "text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan = "2">
+                            <input autocomplete = "off" class = "input-field" name = "email" placeholder = "Email" type = "email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan = "2">
+                            <div class = "text-container">
+                                <h3 class = "birth-date-selectors-title">Insert your birth date</h3>
+                                <h5 class = "birth-date-selectors-subtitle">* Start from the month tab *</h5>
+                            </div>
+                            <div class = "birth-date-selectors">
+                                <select class = "day-selector" name = "day">
+                                    <option value = "">Day</option>
+                                    {% for day in range(1, 32) %}
+                                        <option value = "{{ day }}">{{ day }}</option>
+                                    {% endfor %}
+                                </select>
+                                <select class = "month-selector" name = "month">
+                                    <option value = "">Month</option>
+                                    <option value = "1">January</option>
+                                    <option value = "2">February</option>
+                                    <option value = "3">March</option>
+                                    <option value = "4">April</option>
+                                    <option value = "5">May</option>
+                                    <option value = "6">June</option>
+                                    <option value = "7">July</option>
+                                    <option value = "8">August</option>
+                                    <option value = "9">September</option>
+                                    <option value = "10">October</option>
+                                    <option value = "11">November</option>
+                                    <option value = "12">December</option>
+                                </select>
+                                <select class = "year-selector" name = "year">
+                                    <option value = "">Year</option>
+                                    {% for year in range(2024, 1900, -1) %}
+                                        <option value = "{{ year }}">{{ year }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class = "password-input-field"><input autocomplete = "off" class = "password-field" id = "password-field-2" name = "password" placeholder = "Password" type = "password"><i class = "fa-solid fa-eye-slash eye-icon" id = "eye-icon-2" onclick = "showPassword(2)"></i></div>
+                        </td>
+                        <td>
+                            <div class = "password-input-field"><input autocomplete = "off" class = "password-field" id = "password-field-3" name = "confirmation" placeholder = "Confirm Password" type = "password"><i class = "fa-solid fa-eye-slash eye-icon" id = "eye-icon-3" onclick = "showPassword(3)"></i></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan = "2">
+                            <div class = "checkbox-input-field"><input class = "check-box" id = "sg-cb-1" name = "terms_cond_agreed" type = "checkbox" value = "agreed"><label for = "sg-cb-1">I agree with the <a href = "">terms and conditions</a></label></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class = "form-button" type = "submit">Sign In</button>
+                        </td>
+                        <td>
+                            <button class = "form-button" type = "reset">Clear</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <script src = "static/js/menu.js"></script>
+{% endblock %}

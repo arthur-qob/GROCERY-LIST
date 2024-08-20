@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+        <meta http-equiv = "X-UA-Compatible" content = "ie = edge">
+        <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel = "stylesheet" integrity = "sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin = "anonymous">
+        <script src = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity = "sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin = "anonymous"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity = "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin = "anonymous"></script>
+        <script src = "https://kit.fontawesome.com/5fe1b6438c.js" crossorigin = "anonymous"></script>
+        <link href = "static/style.css" rel = "stylesheet">
+        <link href = "static/images/favicon_io/favicon.ico" rel = "icon">
+        <title>Grocery List: {% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        {% if session["user_id"] %}
+            <nav class = "bg-dark navbar navbar-expand-md navbar-dark">
+                <div class = "container-fluid">
+                    <a class = "navbar-brand" href = "/"><span class = "title">Grocery List</span></a>
+                    <button aria-controls = "navbar" aria-expanded = "false" aria-label = "Toggle navigation" class = "navbar-toggler" data-bs-target = "#navbar" data-bs-toggle = "collapse" type = "button">
+                        <span class = "navbar-toggler-icon"></span>
+                    </button>
+                    <div class = "collapse link-da-nav navbar-collapse" id = "navbar">
+                        <ul class = "navbar-nav ms-auto">
+                            <li><a class = "link-nav {% if active_tab == 'lists' %}active{% endif %}" href = "/lists"><i class = "fa-solid fa-list-ul"></i>    Lists</a></li>
+                            <li><a class = "link-nav {% if active_tab == 'items' %}active{% endif %}" href = "/items"><i class = "fa-solid fa-tag"></i>   Items</a></li>
+                            <li><a class = "link-nav {% if active_tab == 'closed_lists' %}active{% endif %}" href = "/closed_lists"><i class = "fa-solid fa-list"></i>    Closed lists</a></li>
+                            <li><a class = "link-nav {% if active_tab == 'profile' %}active{% endif %}" href = "/profile"><i class = "fa-solid fa-user"></i>   Profile</a></li>
+                            <li><a class = "link-nav" href = "/logout"><i class = "fa-solid fa-arrow-right-from-bracket"></i>    Log Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        {% endif %}
+        <header class = "alert-container">
+            {% if get_flashed_messages() %}
+                {% set error_messages = get_flashed_messages(category_filter = "error") %}
+                {% if error_messages %}
+                    <div class = "alert hidding alert-danger alert-dismissable text-center" role = "alert">
+                        {{ error_messages | join(" ") }}
+                        <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+                    </div>
+                {% endif %}
+                {% set warning_messages = get_flashed_messages(category_filter = "warning") %}
+                {% if warning_messages %}
+                    <div class = "alert hidding alert-warning alert-dismissable text-center" role = "alert">
+                        {{ warning_messages | join(" ") }}
+                        <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+                    </div>
+                {% endif %}
+                {% set success_messages = get_flashed_messages(category_filter = "success") %}
+                {% if success_messages %}
+                    <div class = "alert hidding alert-success alert-dismissable auto-close text-center" role = "alert">
+                        {{ success_messages | join(" ") }}
+                        <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+                    </div>
+                {% endif %}
+                {% set danger_messages = get_flashed_messages(category_filter = "danger") %}
+                {% if danger_messages %}
+                    <div class = "alert hidding alert-danger alert-dismissable text-center" role = "alert">
+                        {{ danger_messages | join(" ") }}
+                        <button type = "button" class = "btn-close" data-bs-dismiss = "alert" aria-label = "Close"></button>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </header>
+        <main class = "container-fluid py-5">
+            {% block main %}
+                {% if session["user_id"] %}
+                    <a id = "scrollUp-btn" href = "#">▲</a>
+                {% endif %}
+            {% endblock %}
+            <button id = "footer-btn" type = "button">
+                <span id = "footer-btn-arrow">▲</span>
+            </button>
+        </main>
+        <footer>
+            <form action = "/contact-me" class = "contact-me-form" method = "POST">
+                <table style = "margin: 10px auto;">
+                    <thead>
+                        <th colspan = "2">Contact-me</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input autocomplete = "off" autofocus class = "form-input" name = "name" placeholder = "Name" type = "text">
+                            </td>
+                            <td>
+                                <input autocomplete = "off" class = "form-input" name = "last_name" placeholder = "Last Name" type = "text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan = "2">
+                                <input autocomplete= "off" class = "form-input" name = "email" placeholder = "Email" type = "email">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan = "2">
+                                <textarea class = "form-textarea" placeholder = "Write your message here."></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class = "form-button" type = "submit">Send</button>
+                            </td>
+                            <td>
+                                <button class = "form-button" type = "reset">Clear</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <p>Made by <a class = "madeby-link" href = "">Arthur Quinellato</a></p>
+            <p>All rights reserved. Copyright © 2024</p>
+            <p class = "social-link-container">
+                <a class = "social-link" href = ""><i class = "fa-brands fa-github"></i></a>
+                <a class = "social-link" href = ""><i class = "fa-brands fa-linkedin"></i></a>
+                <a class = "social-link" href = ""><i class = "fa-brands fa-instagram"></i></a>
+                <a class = "social-link" href = ""><i class = "fa-brands fa-facebook"></i></a>
+            </p>
+        </footer>
+        <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity = "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin = "anonymous"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity = "sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin = "anonymous"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity = "sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin = "anonymous"></script>
+        <script src = "static/js/script.js"></script>
+    </body>
+</html>

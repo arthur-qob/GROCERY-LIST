@@ -1,0 +1,109 @@
+div.wrapper a.button {
+    position: relative;
+    display: inline-block;
+    height: 60px;
+    width: 60px;
+    margin: 0 5px;
+    overflow: hidden;
+    background: var(--footer-social-btn-bg-color);
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 5px 5px 5px var(--footer-social-icon-box-sahdow-color);
+    transition: all 0.3s ease-out;
+}
+
+div.wrapper a.button:hover {
+    width: 200px;
+    padding: 0 10px 0 0;
+}
+
+div.wrapper a.button div.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 60px;
+    border-radius: 50px;
+    line-height: 60px;
+    position: relative;
+    overflow: hidden; 
+    background: var(--footer-social-icon-bg-color);
+    border: 1px solid var(--footer-social-icon-border-color);
+}
+
+div.wrapper a.button:nth-child(1):hover div.icon {
+    background: var(--linkedin-color);
+}
+
+div.wrapper a.button:nth-child(2):hover div.icon div.i {
+    color: var(--github-color);
+}
+
+div.wrapper a.button:nth-child(3) div.icon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--instagram-color);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    z-index: 0;
+}
+
+div.wrapper a.button:nth-child(3):hover div.icon::before {
+    opacity: 1;
+}
+
+div.wrapper a.button:nth-child(2):hover div.icon,
+div.wrapper a.button:nth-child(4):hover div.icon {
+    background: var(--footer-social-icon-active-text-color);
+}
+
+div.wrapper a.button:nth-child(4):hover div.icon div.i {
+    color: var(--twitter-color);
+}
+
+div.wrapper a.button div.icon div.i {
+    font-size: 25px;
+    line-height: 60px;
+    transition: all 0.1s ease-out;
+    z-index: 1;
+}
+
+div.wrapper a.button div.icon div.i {
+    color: var(--footer-social-icon-text-color);
+}
+
+div.wrapper a.button span.social-text {
+    display: none;
+    position: absolute;
+    left: 70px;
+    top: 0;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 60px;
+    transition: all 0.3s ease-out;
+    white-space: nowrap;
+}
+
+div.wrapper a.button:hover span.social-text {
+    display: inline-flex;
+}
+
+div.wrapper a.button:nth-child(1) span.social-text {
+    color: var(--linkedin-text-color);
+}
+
+div.wrapper a.button:nth-child(2) span.social-text {
+    color: var(--github-text-color);
+}
+
+div.wrapper a.button:nth-child(3) span.social-text {
+    color: var(--instagram-text-color);
+}
+
+div.wrapper a.button:nth-child(4) span.social-text {
+    color: var(--twitter-text-color);
+}

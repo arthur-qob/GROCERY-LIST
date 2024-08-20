@@ -1,0 +1,80 @@
+div.add-item-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+input.add-item-input {
+    outline: none;
+    height: 30px;
+    border: 1px solid var(--gl-input-border-color);
+    padding: 5px;
+    background: var(--gl-input-background-color);
+    color: var(--gl-input-text-color);
+    width: 50px;
+}
+
+svg#drag-grip {
+    cursor: grab;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+svg#drag-grip rect.grip-dots {
+    fill: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+
+}
+
+button.gl-btn {
+    width: max-content;
+    height: 30px;
+    border: none;
+    padding: 5px 10px;
+    background: var(--gl-btn-bg-color);
+    color: var(--gl-btn-text-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+table.gl-table {
+    width: 50%;
+    margin: min(50px, 5%) auto;
+    text-align: center;
+}
+
+table.gl-table tbody tr:hover {
+    background: var(--gl-table-hover-color);
+    color: var(--gl-table-hover-text-color);
+}
+
+table.gl-table tr:first-child, table.gl-table tr:last-child {
+    border-bottom: 1px solid var(--gl-table-outter-border-color);
+}
+
+table.gl-table tbody tr:not(:last-child) {
+    border-bottom: 1px dashed var(--gl-table-inner-border-color);
+}
+
+table.gl-table td, th {
+    padding: 10px;
+}
+
+table.gl-table td:last-child {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}

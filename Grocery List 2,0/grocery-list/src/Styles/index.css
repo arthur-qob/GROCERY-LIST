@@ -1,0 +1,168 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.3s ease-in-out, color 0.01s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+    user-select: none;
+    text-rendering: optimizeLegibility;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+input[type = 'number']::-webkit-inner-spin-button,
+input[type = 'number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+:root {
+    /* Scroll Bar */
+    --scroll-bar-track-color: #f4f4f4;
+    --scroll-bar-thumb-color: lightgrey;
+
+    /* App */
+    --text-color: #333;
+    --bg-color: #fff;
+    --container-bg-color: #f4f4f4;
+    --border-color: #f5f5f5;
+    --box-shadow-color: lightgrey;
+
+    /* Navbar */
+    --nav-brand-color1: #03CC65;
+    --nav-brand-color2: #1a1a1a;
+    --nav-bg-color: #f9f9f9;
+    --nav-inactive-text-color: #555;
+    --nav-inactive-bg-color: transparent;
+    --nav-active-text-color: black;
+    --nav-active-bg-color: #2f2f2f;
+    --nav-icon-fill-color: #2f2f2f;
+    --nav-icon-btn-bg-color: transparent;
+
+    /* Theme Toggle */
+    --theme-toggle-bg-color: lightgrey;
+    --theme-toggle-color: #f4f4f4;
+
+    /* Scroll Btn */
+    --scroll-btn-bg-color: #f4f4f4;
+    --scroll-btn-box-shadow-color: lightgrey;
+    --scroll-btn-text-color: #333;
+
+    /* Grocery List */
+    --gl-text-color: #333;
+    --gl-input-bg-color: transparent;
+    --gl-input-border-color: #333;
+    --gl-table-hover-text-color: #333;
+    --gl-btn-bg-color: #333;
+    --gl-btn-text-color: #f5f5f5;
+    --gl-table-bg-color: transparent;
+    --gl-table-outter-border-color: #333;
+    --gl-table-inner-border-color: #555;
+    --gl-table-hover-color: lightgrey;
+
+    /* Social Icons */
+    --footer-social-btn-bg-color: #f4f4f4;
+    --footer-social-icon-bg-color: #f4f4f4;
+    --footer-social-icon-border-color: #f5f5f5;
+    --footer-social-icon-box-sahdow-color: lightgrey;
+    --footer-social-icon-text-color: #333;
+    --footer-social-icon-active-text-color: lightgrey;
+    --footer-social-icon-active2-text-color: #333;
+    --linkedin-text-color: #0077B5;
+    --github-text-color: #333;
+    --instagram-text-color: #E1306C;
+    --twitter-text-color: #111;
+    --linkedin-color: #0077B5;
+    --github-color: #333;
+    --instagram-color: linear-gradient(300deg, 
+        #feda75, /* Light Yellow */
+        #fa7e1e, /* Orange */
+        #d62976, /* Pink */
+        #962fbf, /* Purple */
+        #4f5bd5  /* Blue */
+    );
+    --twitter-color: #111;
+}
+
+[data-theme = 'dark'] {
+    /* Scroll Bar */
+    --scroll-bar-track-color: #333;
+    --scroll-bar-thumb-color: #555;
+    
+    /* App */
+    --text-color: #fff;
+    --bg-color: #333;
+    --container-bg-color: #2f2f2f;
+    --border-color: #1a1a1a;
+    --box-shadow-color: #111;
+    
+    /* Navbar */
+    --nav-bg-color: #171717;
+    --nav-brand-color1: #03CC65;
+    --nav-brand-color2: #f5f5f5;
+    --nav-inactive-text-color: #fff;
+    --nav-inactive-bg-color: transparent;
+    --nav-active-text-color: lightgray;
+    --nav-active-bg-color: #f5f5f5;
+    --nav-icon-fill-color: #f5f5f5;
+    --nav-icon-btn-bg-color: transparent;
+
+    /* Theme Toggle */
+    --theme-toggle-bg-color: darkgrey;
+    --theme-toggle-color: #f4f4f4;
+
+    /* Scroll Btn */
+    --scroll-btn-bg-color: #2f2f2f;
+    --scroll-btn-box-shadow-color: #111;
+    --scroll-btn-text-color: #f5f5f5;
+
+    /* Grocery List */
+    --gl-text-color: #f5f5f5;
+    --gl-input-bg-color: transparent;
+    --gl-input-border-color: #f5f5f5;
+    --gl-input-placeholder-color: #f5f5f5;
+    --gl-btn-bg-color: #f5f5f5;
+    --gl-btn-text-color: #333;
+    --gl-table-bg-color: transparent;
+    --gl-table-outter-border-color: #f5f5f5;
+    --gl-table-inner-border-color: grey;
+
+    /* Social Icons */
+    --footer-social-btn-bg-color: #2f2f2f;
+    --footer-social-icon-bg-color: #2f2f2f;
+    --footer-social-icon-border-color: #333;
+    --footer-social-icon-box-sahdow-color: #111;
+    --footer-social-icon-text-color: #f5f5f5;
+    --footer-social-icon-active-text-color: #fff;
+    --linkedin-text-color: #0077B5;
+    --github-text-color: #f5f5f5;
+    --instagram-text-color: #E1306C;
+    --twitter-text-color: #f5f5f5;
+    --linkedin-color: #0077B5;
+    --github-color: #333;
+    --instagram-color: linear-gradient(300deg, 
+        #feda75, /* Light Yellow */
+        #fa7e1e, /* Orange */
+        #d62976, /* Pink */
+        #962fbf, /* Purple */
+        #4f5bd5  /* Blue */
+    );
+    --twitter-color: #111;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-btn-bg-color);
+    border-radius: 4px;
+}

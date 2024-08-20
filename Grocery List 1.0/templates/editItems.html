@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Title
+{% endblock %}
+
+{% block main %}
+    <div class = "my_container container-fluid">
+        <div class = "my_container-title">
+            <h1>Edit Items</h1>
+        </div>
+        <form action = "/editItems" method = "POST">
+            {% if item %}
+                <table class = "edit-item-table">
+                    <tbody>
+                        <tr>
+                            <td><input autocomplete = "off" autofocus class = "edit_item_inpt new_item_title" name = "item_name" placeholder = "Item name" type = "text"></td>
+                        </tr>
+                        <tr>
+                            <td><input autocomplete = "off" class = "edit_item_inpt new_item_is_meat" id = "edit_item_checkbox" name = "item_is_meat" type = "checkbox"><label for = "edit_item_checkbox">Is this item of the type meat?</label></td>
+                        </tr>
+                        <tr><td><button class = "btn btn-success" type = "submit">Save</button></td></tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <table class = "edit-item-table">
+                    <tbody>
+                        <tr>
+                            <td><input autocomplete = "off" autofocus class = "" name = "item_name" placeholder = "Item name" type = "text"></td>
+                        </tr>
+                        <tr>
+                            <td><input autocomplete = "off" class = "" id = "edit_item_checkbox" name = "item_is_meat" type = "checkbox"><label for = "edit_item_checkbox">Is this item of the type meat?</label></td>
+                        </tr>
+                        <tr><td><button class = "btn btn-success" type = "submit">Save</button></td></tr>
+                    </tbody>
+                </table>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}
