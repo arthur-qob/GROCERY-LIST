@@ -1,9 +1,11 @@
-import { View, TouchableOpacity, StyleSheet, useColorScheme } from 'react-native'
+import { View, TouchableOpacity, StyleSheet } from 'react-native'
+import { useTheme } from '@/contexts/ThemeContext'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import { ThemedText as Text } from './ThemedText'
 
 export default function ListBtn({ lists }) {
-    const theme = useColorScheme() ?? 'light'
+    const { currentTheme } = useTheme()
+    const theme = currentTheme === 'light' ? 'light' : 'dark'
 
     return (
         <>

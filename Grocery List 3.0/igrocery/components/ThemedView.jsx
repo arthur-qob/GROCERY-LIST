@@ -1,7 +1,6 @@
 import {
   KeyboardAvoidingView,
   Platform,
-  useColorScheme,
   SafeAreaView,
   StyleSheet,
   View,
@@ -9,8 +8,6 @@ import {
 } from 'react-native'
 
 export function ThemedView({ style, ...otherProps }) {
-  const theme = useColorScheme() ?? 'light'
-
   return (
     <SafeAreaView style = { styles.safeArea } { ...otherProps }>
       <KeyboardAvoidingView
@@ -18,7 +15,7 @@ export function ThemedView({ style, ...otherProps }) {
         behavior = { Platform.OS === 'ios' ? 'padding' : 'height' }
       >
         <ScrollView contentContainerStyle = { styles.scrollView }>
-          <View style = { style }>
+          <View style = {[ style, Platform.OS === 'android' ? { paddingVertical: 50 } : null ]}>
             { otherProps.children }
           </View>
         </ScrollView>
