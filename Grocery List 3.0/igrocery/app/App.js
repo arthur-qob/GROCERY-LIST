@@ -1,8 +1,10 @@
 import { ThemedView as Div } from '@/components/ThemedView'
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
 import StackNavigator from './navigation/StackNavigator'
+import { useColorScheme } from 'react-native'
 
-const MyTheme = {
+
+const CustomLightTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
@@ -10,12 +12,22 @@ const MyTheme = {
     },
 }
 
+const CustomDarkTheme = {
+    ...DarkTheme,
+    colors: {
+        ...DarkTheme.colors,
+        background: 'rgb(12, 12, 12)',
+    }
+}
+
 export default function App() {
+    const theme = useColorScheme() ?? 'light'
+
+    const MyTheme = theme === 'dark' ? CustomDarkTheme : CustomLightTheme
+
     return (
-        <Div>
-            <NavigationContainer theme = { MyTheme }>
-                <StackNavigator />
-            </NavigationContainer>
-        </Div>
+        <NavigationContainer theme = { MyTheme }>
+            <StackNavigator />
+        </NavigationContainer>
     )   
 }

@@ -2,6 +2,7 @@ import { View, ScrollView } from 'react-native'
 import styles from './style'
 import ListBtn from '@/components/ListBtn'
 import { ThemedText as Text } from '@/components/ThemedText'
+import { ThemedView as Div } from '@/components/ThemedView'
 
 export default function HomeScreen() {
     const lists = [
@@ -32,14 +33,13 @@ export default function HomeScreen() {
     // const lists = null
 
     return (
-        <ScrollView contentContainerStyle = { styles.mainContainer }>
+        <Div style = { styles.mainContainer }>
             <Text style = { styles.title }>Lists</Text>
             <View style = { styles.listsContainer }>
                 
                 <ListBtn lists = { lists } />
 
             </View>
-
-        </ScrollView>
+        </Div>
     )
 }

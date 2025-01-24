@@ -12,19 +12,13 @@ export function ThemedView({ style, ...otherProps }) {
   const theme = useColorScheme() ?? 'light'
 
   return (
-    <SafeAreaView
-      style = {[
-        styles.safeArea,
-        style,
-      ]}
-      { ...otherProps }
-    >
+    <SafeAreaView style = { styles.safeArea } { ...otherProps }>
       <KeyboardAvoidingView
         style = { styles.keyboardAvoidingView }
-        behavior = {Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior = { Platform.OS === 'ios' ? 'padding' : 'height' }
       >
         <ScrollView contentContainerStyle = { styles.scrollView }>
-          <View style = { styles.contentView }>
+          <View style = { style }>
             { otherProps.children }
           </View>
         </ScrollView>
@@ -46,9 +40,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     width: '100%',
     backgroundColor: 'transparent',
-  },
-  contentView: {
-    flex: 1,
-    justifyContent: 'center',
   },
 })

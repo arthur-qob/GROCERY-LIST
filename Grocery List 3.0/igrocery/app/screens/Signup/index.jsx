@@ -1,5 +1,6 @@
-import { Button, TextInput, TouchableOpacity, View } from 'react-native'
+import { Button, TouchableOpacity, View } from 'react-native'
 import { ThemedText as Text } from '@/components/ThemedText'
+import { ThemedView as Div } from '@/components/ThemedView'
 import { CustomTextInput as Input } from '@/components/CustomTextInput'
 import { useColorScheme } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -10,7 +11,7 @@ export default function LoginScreen() {
     const navigation = useNavigation()
 
     return (
-        <View style = { styles.mainContainer }>
+        <Div style = { styles.mainContainer }>
             <Text style = { styles.title }>Sign up</Text>
 
             <Input type = 'name' />
@@ -29,6 +30,6 @@ export default function LoginScreen() {
                 title = 'Already have an account?' 
                 onPress = { () => navigation.navigate('Login') }
             />
-        </View>
+        </Div>
     )
 }
