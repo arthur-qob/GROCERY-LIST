@@ -1,7 +1,8 @@
-import { Button, TouchableOpacity, View } from 'react-native'
+import { Button as Link, TouchableOpacity, View } from 'react-native'
 import { ThemedText as Text } from '@/components/ThemedText'
 import { ThemedView as Div } from '@/components/ThemedView'
 import { CustomTextInput as Input } from '@/components/CustomTextInput'
+import { CustomButton as Button } from '@/components/CustomButton'
 import { useColorScheme } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import styles from './style'
@@ -22,11 +23,9 @@ export default function LoginScreen() {
             
             <Input type = 'confirmation' />
 
-            <TouchableOpacity style = { styles.btn }>
-                <Text lightColor = '#fff' darkColor = '#fff'>Sign up</Text>
-            </TouchableOpacity>
+            <Button title = 'Sign up' type = 'primary' style = { styles.btn } />
 
-            <Button 
+            <Link 
                 title = 'Already have an account?' 
                 onPress = { () => navigation.navigate('Login') }
             />

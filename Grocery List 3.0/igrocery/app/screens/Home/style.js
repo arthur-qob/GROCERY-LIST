@@ -7,14 +7,26 @@ const HomeScreenStyles = StyleSheet.create({
         justifyContent: 'center',
         gap: 20
     },
-    button: {
+    sectionContainers: {
+        width: '100%',
+        height: 200,
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '50%',
-        backgroundColor: 'rgb(10, 132, 255)',
-        borderRadius: 10,
-        padding: 10
+        flexDirection: 'column',
+        gap: 10,
+        padding: 10,
+        borderWidth: 1,
+    },
+    sectionTitles: {
+        width: '100%',
+    },
+    section1BtnsContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 10,
+    },
+    section1Btns: {
+        width: '25%',
     }
 })
 

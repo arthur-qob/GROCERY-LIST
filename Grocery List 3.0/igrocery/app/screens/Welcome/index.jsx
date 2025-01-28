@@ -1,6 +1,7 @@
 import { TouchableOpacity, View } from 'react-native'
 import { ThemedText as Text } from '@/components/ThemedText'
 import { ThemedView as Div } from '@/components/ThemedView'
+import { CustomButton as Button } from '@/components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
 import styles from './style'
 
@@ -17,26 +18,11 @@ export default function WelcomeScreen() {
                 <Text style = { styles.title }>Welcome to iGrocery</Text>
                 <Text style = { styles.subtitle }>A new way to keep track of your grocery needs.</Text>
 
-                <TouchableOpacity
-                    style = {[ styles.btns, styles.signupBtn ]}
-                    onPress = { () => navigation.navigate('Signup') }
-                >
-                    <Text lightColor = '#fff' darkColor = '#fff' style = { styles.btnsText }>Sign up</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style = {[ styles.btns, styles.loginBtn ]}
-                    onPress = { () => navigation.navigate('Login') }
-                >
-                    <Text lightColor = 'rgb(10, 132, 255)' darkColor = 'rgb(10, 132, 255)' style = { styles.btnsText }>Log in</Text>
-                </TouchableOpacity>
+                <Button title = 'Sign up' style = {[ styles.btns ]} type = 'primary' onPress = { () => navigation.navigate('Signup') } />
+                    
+                <Button title = 'Log in' style = {[ styles.btns ]} type = 'secondary' onPress = { () => navigation.navigate('Login') } />
                 
-                <TouchableOpacity
-                    style = {[ styles.btns, styles.loginBtn ]}
-                    onPress = { () => navigation.navigate('Main') }
-                >
-                    <Text lightColor = 'rgb(10, 132, 255)' darkColor = 'rgb(10, 132, 255)' style = { styles.btnsText }>Backdoor entrance</Text>
-                </TouchableOpacity>
+                <Button title = 'Backdoor entrance' style = {[ styles.btns ]} type = 'secondary' onPress = { () => navigation.navigate('Main') } />
             </View>
         </Div>
     )

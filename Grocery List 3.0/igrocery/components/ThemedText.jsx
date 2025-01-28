@@ -1,11 +1,18 @@
 import { StyleSheet, Animated, useColorScheme, Text } from 'react-native'
 import { useTheme } from '@/contexts/ThemeContext'
+import { useFonts } from 'expo-font'
 import { useEffect, useRef } from 'react'
 
 export function ThemedText({ style, lightColor = '#000', darkColor = '#fff', type = 'default', ...rest }) {
     // const currentTheme = useColorScheme() ?? 'light'
     // const color = currentTheme === 'light' ? lightColor : darkColor
     
+    const [ loaded, error ] = useFonts({
+        'Poppins-Regular': require('@/assets/fonts/Poppins-Regular.ttf'),
+        'Poppins-SemiBold': require('@/assets/fonts/Poppins-SemiBold.ttf'),
+        'Poppins-Bold': require('@/assets/fonts/Poppins-Bold.ttf'),
+    })
+
     const { currentTheme } = useTheme()
     const animatedValue = useRef(new Animated.Value(0)).current
     const isLightTheme = currentTheme === 'light'
@@ -55,21 +62,23 @@ export function ThemedText({ style, lightColor = '#000', darkColor = '#fff', typ
 const styles = StyleSheet.create({
     default: {
         fontSize: 18,
+        fontFamily: 'Poppins-Regular',
     },
     defaultSemiBold: {
         fontSize: 18,
-        fontWeight: '600',
+        fontFamily: 'Poppins-SemiBold',
     },
     title: {
         fontSize: 32,
-        fontWeight: 'bold',
+        fontFamily: 'Poppins-Bold',
     },
     subtitle: {
         fontSize: 20,
-        fontWeight: 'bold',
+        fontFamily: 'Poppins-SemiBold',
     },
     link: {
         fontSize: 18,
-        color: '#0a7ea4',
+        color: 'rgb(10, 132, 255)',
+        fontFamily: 'Poppins-Regular',
     },
 })

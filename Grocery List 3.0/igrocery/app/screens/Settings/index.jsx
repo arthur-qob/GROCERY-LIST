@@ -1,16 +1,22 @@
 import { ThemedView as Div } from '@/components/ThemedView'
 import { ThemedText as Text } from '@/components/ThemedText'
+import { CustomButton as Button } from '@/components/CustomButton'
 // import { Collapsible } from '@/components/Collapsible'
 import styles from './style'
 import { useNavigation } from '@react-navigation/native'
 import { Switch, TouchableOpacity, View } from 'react-native'
 import { useTheme } from '@/contexts/ThemeContext'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function SettingsScreen() {
     const navigation = useNavigation()
     const { themeOption, changeTheme } = useTheme()
-    const theme = themeOption === 'light' ? 'light' : 'dark'
+    const [ theme, setTheme ] = useState(themeOption)
+    // const theme = themeOption === 'light' ? 'light' : 'dark'
+
+    useEffect(() => {
+        setTheme(themeOption)
+    }, [themeOption])
 
     const [activeSwitch, setActiveSwitch] = useState(themeOption)
 
@@ -75,17 +81,12 @@ export default function SettingsScreen() {
                 </View>
             </View>
 
-            <TouchableOpacity
-                style = { styles.button }
-                onPress = {() => {
+            <Button title = 'Exit' type = 'primary' style = { styles.button } onPress = { () => {
                     navigation.reset({
                         index: 0,
                         routes: [{ name: 'Welcome', params: { from: 'main' } }],
                     })
-                }}
-            >
-                <Text lightColor = '#fff' darkColor = '#fff'>Exit</Text>
-            </TouchableOpacity>
+                } }  />
         </Div>
     )
 }

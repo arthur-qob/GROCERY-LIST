@@ -1,4 +1,4 @@
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ThemedText as Text } from '@/components/ThemedText'
 import { useTheme } from '@/contexts/ThemeContext'
 import { CustomButton as Button } from './CustomButton'
@@ -6,8 +6,6 @@ import { CustomButton as Button } from './CustomButton'
 export default function ItemCard({ items, onPress1, onPress2 }) {
     const { currentTheme } = useTheme()
     const theme = currentTheme === 'light' ? 'light' : 'dark'
-
-    const image = theme === 'dark' ? require('@/assets/images/items/dark/bread-image.jpg') : require('@/assets/images/items/light/bread-image.jpg')
 
     return (
         <>
@@ -20,10 +18,12 @@ export default function ItemCard({ items, onPress1, onPress2 }) {
                     } ]}>
                         <Text style = { styles.ItemCardTitle }>{ item.title }</Text>
                         {
-                            image ? (
+                            item.image ? (
                                 <Image source = { item.image } style = { styles.itemCardImage } />
                             ) : (
-                                <View style = { styles.itemCardImage }></View>
+                                <View style = { styles.itemCardImage }>
+                                    <ActivityIndicator size = 'large' color = { theme === 'light' ? 'rgb(255, 255, 255)' : 'grey' } />
+                                </View>
                             )
                         }
                         <View style = { styles.itemCardDetails }>
@@ -36,8 +36,8 @@ export default function ItemCard({ items, onPress1, onPress2 }) {
 
                         </View>
                         <View style = { styles.itemCardDetailsBtnsContainer }>
-                            <Button title = 'Edit' type = 'secondary' onPress = { onPress2 } />
-                            <Button title = 'Add' type = 'primary' onPress = { onPress1 } />
+                            <Button title = 'Edit' type = 'secondary' style = {{ width: '45%' }} onPress = { onPress2 } />
+                            <Button title = 'Add' type = 'primary' style = {{ width: '45%' }} onPress = { onPress1 } />
                         </View>
                     </View>
                 )

@@ -16,11 +16,6 @@ const SignupScreenStyles = StyleSheet.create({
     },
     btn: {
         width: '80%',
-        padding: 10,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgb(10, 132, 255)',
     },
 })
 

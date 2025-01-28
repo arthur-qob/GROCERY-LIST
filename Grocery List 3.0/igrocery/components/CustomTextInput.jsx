@@ -11,6 +11,7 @@ export function CustomTextInput({ type, ...otherProps }) {
                 { ...otherProps }
                 style = {{
                     width: '80%',
+                    height: '100%',
                 }}
                 placeholder = {
                     type === 'confirmation'
@@ -21,16 +22,22 @@ export function CustomTextInput({ type, ...otherProps }) {
                 secureTextEntry = { type === 'password' || type === 'confirmation' }
             />
             { type === 'password' || type === 'confirmation' ? (
-                <Ionicons
-                    name = "eye"
-                    size = {24}
-                    color = { theme === 'dark' ? '#ccc' : '#aaa' }
+                <View
                     style = {{
                         width: '10%',
-                        alignSelf: 'center',
                         height: '100%',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                     }}
-                />
+                > 
+                    <Ionicons
+                        name = "eye"
+                        size = { 24 }
+                        color = { theme === 'dark' ? '#ccc' : '#aaa' }
+                    />
+                </View>
             ) : null }
         </View>
     )
@@ -43,7 +50,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         margin: 10,
-        padding: 10,
+        paddingHorizontal: 10,
         borderRadius: 10,
         display: 'flex',
         flexDirection: 'row',

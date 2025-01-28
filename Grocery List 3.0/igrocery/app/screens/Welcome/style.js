@@ -28,23 +28,8 @@ const WelcomeScreenStyles = StyleSheet.create({
     },
     btns: {
         width: '80%',
-        padding: 10,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
         marginBottom: 20,
     },
-    btnsText: {
-        fontSize: 18,
-    },
-    signupBtn: {
-        backgroundColor: 'rgb(10, 132, 255)',
-    },
-    loginBtn: {
-        backgroundColor: 'transparent',
-        borderColor: 'rgb(10, 132, 255)',
-        borderWidth: 1.5,
-    }
 })
 
 export default WelcomeScreenStyles
