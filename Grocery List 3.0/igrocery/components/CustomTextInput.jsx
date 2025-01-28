@@ -1,5 +1,5 @@
 import { StyleSheet, useColorScheme, View, TextInput } from 'react-native'
-import { ThemedText as Text } from '@/components/ThemedText'
+// import { ThemedText as Text } from '@/components/ThemedText'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export function CustomTextInput({ type, ...otherProps }) {

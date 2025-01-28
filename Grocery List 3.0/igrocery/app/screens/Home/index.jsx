@@ -1,5 +1,6 @@
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, useColorScheme, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { useTheme } from '@/contexts/ThemeContext'
 import { ThemedView as Div } from '@/components/ThemedView'
 import { ThemedText as Text } from '@/components/ThemedText'
 import styles from './style'

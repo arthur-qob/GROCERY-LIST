@@ -6,12 +6,7 @@ const HomeScreenStyles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginTop: 25,
-    },
-    title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 25,
+        gap: 20,
     },
     listsContainer: {
         width: '80%',

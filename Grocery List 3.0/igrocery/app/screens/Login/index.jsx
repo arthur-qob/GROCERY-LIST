@@ -20,8 +20,7 @@ export default function LoginScreen() {
 
             { Platform.OS === 'ios' ? (
                 <Button title = 'Forgot password?' />
-            
-            ): (
+            ) : (
                 <TouchableOpacity>
                     <Text lightColor = '#000' darkColor = '#fff'>Forgot password?</Text>
                 </TouchableOpacity>

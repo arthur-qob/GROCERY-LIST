@@ -1,9 +1,10 @@
-import { View, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, TouchableOpacity, StyleSheet, useColorScheme } from 'react-native'
 import { useTheme } from '@/contexts/ThemeContext'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import { ThemedText as Text } from './ThemedText'
 
 export default function ListBtn({ lists }) {
+    // const currentTheme = useColorScheme() ?? 'light'
     const { currentTheme } = useTheme()
     const theme = currentTheme === 'light' ? 'light' : 'dark'
 
@@ -14,17 +15,17 @@ export default function ListBtn({ lists }) {
                     { lists.map((list, index) => (
                         <View key = { index }>
                             <TouchableOpacity style = {[ styles.list, {
-                                backgroundColor: theme === 'light' ? '#f0f0f0' : '#323232',
-                                borderColor: theme === 'light' ? '#e9e9e9' : '#292929',
+                                backgroundColor: theme === 'light' ? 'rgb(255, 255, 255)' : 'rgb(28, 28, 30)',
+                                // borderColor: theme === 'light' ? '#e9e9e9' : '#292929',
                                 
                             } ]}>
                                 <View style = { styles.listBtnHeader }>
                                     <Text style = { styles.listBtnHeaderText }>{ list.name }</Text>
-                                    <IonIcon name = 'chevron-forward' size = { 20 } color = { theme === 'dark' ? '#fff' : '#000'} />
+                                    <IonIcon name = 'chevron-forward' size = { 20 } color = { theme === 'dark' ? 'rgb(142, 142, 147)' : 'rgb(228, 227, 233)'} />
                                 </View>
         
                                 <View style = {[ styles.listSeparator, {
-                                    backgroundColor: theme === 'light' ? '#000' : '#fff',
+                                    backgroundColor: theme === 'light' ? 'rgb(228, 227, 233)' : 'rgb(142, 142, 147)',
                                 } ]} />
         
                                 <View style = { styles.listBtnFooter }>
@@ -39,8 +40,8 @@ export default function ListBtn({ lists }) {
             ) : (
                 <>
                     <View style = {[ styles.listNotFoundContainer, {
-                        backgroundColor: theme === 'light' ? '#f0f0f0' : '#323232',
-                        borderColor: theme === 'light' ? '#e9e9e9' : '#292929',
+                        backgroundColor: theme === 'light' ? 'rgb(255, 255, 255)' : 'rgb(28, 28, 30)',
+                        // borderColor: theme === 'light' ? '#e9e9e9' : '#292929',
                     } ]}>
                         <Text style = { styles.listNotFoundContainerText }>No lists found</Text>
                     </View>
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
         padding: 15,
         borderWidth: 1,
         borderRadius: 10,
+        borderColor: 'transparent',
         gap: 10,
     },
     listNotFoundContainer: {
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
         height: 100,
         borderWidth: 1,
         borderRadius: 10,
+        borderColor: 'transparent',
     },
     listNotFoundContainerText: {
         fontSize: 18,

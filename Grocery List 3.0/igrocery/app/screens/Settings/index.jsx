@@ -1,17 +1,79 @@
 import { ThemedView as Div } from '@/components/ThemedView'
 import { ThemedText as Text } from '@/components/ThemedText'
+// import { Collapsible } from '@/components/Collapsible'
 import styles from './style'
 import { useNavigation } from '@react-navigation/native'
-import { Button, TouchableOpacity, View } from 'react-native'
+import { Switch, TouchableOpacity, View } from 'react-native'
 import { useTheme } from '@/contexts/ThemeContext'
+import React, { useState } from 'react'
 
 export default function SettingsScreen() {
     const navigation = useNavigation()
     const { themeOption, changeTheme } = useTheme()
+    const theme = themeOption === 'light' ? 'light' : 'dark'
+
+    const [activeSwitch, setActiveSwitch] = useState(themeOption)
+
+    const handleSwitchChange = (theme) => {
+        setActiveSwitch(theme)
+        changeTheme(theme)
+    }
 
     return (
         <Div style = { styles.mainContainer }>
             <Text>Settings</Text>
+
+            <Text style = { styles.sectionTitle }>Theme</Text>
+            <View style = {[ styles.swithTable, {
+                backgroundColor: theme === 'dark' ? 'rgb(28, 28, 30)' : 'rgb(255, 255, 255)',
+            } ]}>
+                <View style = { styles.switchContainer }>
+                    <Text>Light</Text>
+                    <Switch
+                        value = { activeSwitch === 'light' }
+                        onValueChange = { () => handleSwitchChange('light') }
+                        trackColor = {{
+                            false: 'rgb(233, 233, 235)',
+                            true: 'rgb(10, 132, 255)',
+                        }}
+                        thumbColor = { 'rgb(255, 255, 255)' }
+                    />
+                </View>
+
+                <View style = {[ styles.switchContainerSeparator, {
+                    borderBottomColor: theme === 'light' ? 'rgb(228, 227, 233)' : 'rgb(142, 142, 147)',
+                } ]} />
+
+                <View style = { styles.switchContainer }>
+                    <Text>Dark</Text>
+                    <Switch
+                        value = { activeSwitch === 'dark' }
+                        onValueChange = { () => handleSwitchChange('dark') }
+                        trackColor = {{
+                            false: 'rgb(233, 233, 235)',
+                            true: 'rgb(10, 132, 255)',
+                        }}
+                        thumbColor = { 'rgb(255, 255, 255)' }
+                    />
+                </View>
+
+                <View style = {[ styles.switchContainerSeparator, {
+                    borderBottomColor: theme === 'light' ? 'rgb(228, 227, 233)' : 'rgb(142, 142, 147)',
+                } ]} />
+
+                <View style = { styles.switchContainer }>
+                    <Text>System</Text>
+                    <Switch
+                        value = { activeSwitch === 'system' }
+                        onValueChange = { () => handleSwitchChange('system') }
+                        trackColor = {{
+                            false: 'rgb(233, 233, 235)',
+                            true: 'rgb(10, 132, 255)',
+                        }}
+                        thumbColor = { 'rgb(255, 255, 255)' }
+                    />
+                </View>
+            </View>
 
             <TouchableOpacity
                 style = { styles.button }
@@ -22,16 +84,8 @@ export default function SettingsScreen() {
                     })
                 }}
             >
-                <Text>Exit</Text>
+                <Text lightColor = '#fff' darkColor = '#fff'>Exit</Text>
             </TouchableOpacity>
-
-            <View>
-                <Text>Current Theme: { themeOption }</Text>
-            </View>
-
-            <Button title = "Change to Light" onPress = {() => changeTheme('light')} />
-            <Button title = "Change to Dark" onPress = {() => changeTheme('dark')} />
-            <Button title = "Change to Match System" onPress = {() => changeTheme('system')} />
         </Div>
     )
 }
