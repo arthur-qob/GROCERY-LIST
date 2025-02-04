@@ -11,15 +11,19 @@ import { Logout } from '@/utils/auth'
 
 export default function SettingsScreen() {
     const navigation = useNavigation()
-    const { themeOption, changeTheme } = useTheme()
+    const { themeOption, currentTheme, changeTheme } = useTheme()
     const [ loading, setLoading ] = useState(false)
-    const theme = themeOption === 'light' ? 'light' : 'dark'
+    let theme = currentTheme === 'light' ? 'light' : 'dark'
+
+    useEffect(() => {
+        setActiveSwitch(themeOption)
+    }, [themeOption])
 
     const [activeSwitch, setActiveSwitch] = useState(themeOption)
 
-    const handleSwitchChange = (theme) => {
-        setActiveSwitch(theme)
-        changeTheme(theme)
+    const handleSwitchChange = (newThemeOption) => {
+        setActiveSwitch(newThemeOption)
+        changeTheme(newThemeOption)
     }
 
     return (
@@ -77,9 +81,9 @@ export default function SettingsScreen() {
                 </View>
             </View>
 
-            <Button title = 'Log Out' type = 'primary' style = { styles.button } loading = { loading } onPress = { () => {
+            <Button title = 'Log Out' type = 'primary' style = { styles.button } loading = { loading } onPress = { async () => {
                 setLoading(true)
-                Logout()
+                await Logout()
                 setTimeout(() => {
                     setLoading(false)
                     navigation.reset({

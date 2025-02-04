@@ -9,11 +9,10 @@ export const Signup = async (name, email, password) => {
             const user = userCred.user
             const userRef = ref(db, `users/${user.uid}`)
             const data = {
-                role: 'user',
+                role: 'USER',
                 name,
                 email,
-                createdAt: new Date().toISOString(),
-                lists: []
+                createdAt: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }).replace(/[/]/g, '-').replace(',', ' | ')
             }
             await set(userRef, data)
             await sendEmailVerification(user)

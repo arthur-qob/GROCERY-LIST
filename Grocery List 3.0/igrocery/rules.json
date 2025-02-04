@@ -1,0 +1,62 @@
+{
+    "rules": {
+        ".read": "auth !== null && root.child('users').child(auth.uid).child('role').val() === 'ADMIN'",
+        ".write": "auth !== null && root.child('users').child(auth.uid).child('role').val() === 'ADMIN'",
+        "users": {
+            "$uid": {
+                ".read": "auth !== null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+                ".write": "auth !== null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+                "role": {
+                    ".validate": "newData.val() === 'ADMIN' || newData.val() === 'USER'",
+                    ".write": "root.child('users').child(auth.uid).child('role').val() === 'ADMIN'"
+                }
+            }
+        },
+        "lists": {
+            "$listId": {
+                ".read": "auth !== null && (auth.uid === data.child('owner').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+                ".write": "auth !== null && (auth.uid === data.child('owner').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+                "owner": {
+                    ".validate": "newData.val() === auth.uid"
+                },
+                "title": {
+                    ".validate": "newData.isString() && newData.val().length > 0"
+                },
+                "creationDate": {
+                    ".validate": "newData.isString() && newData.val().matches(/^\\d{2}-\\d{2}-\\d{4} \\| \\d{2}:\\d{2}:\\d{2}$/)"
+                },
+                "totalQuantity": {
+                    ".validate": "newData.isNumber() && newData.val() >= 0"
+                },
+                "totalAmount": {
+                    ".validate": "newData.isNumber() && newData.val() >= 0"
+                },
+                "items": {
+                    "$itemId": {
+                        ".validate": "root.child('items').child($itemId).exists()"
+                    }
+                }
+            }
+        },
+        "items": {
+            "$itemId": {
+                ".read": "auth !== null && (auth.uid === data.child('owner').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+                ".write": "auth !== null && (auth.uid === data.child('owner').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+                "owner": {
+                    ".validate": "newData.val() === auth.uid"
+                },
+                "description": {
+                    ".validate": "newData.isString() && newData.val().length > 0"
+                },
+                "unitValue": {
+                    ".validate": "newData.isNumber() && newData.val() >= 0"
+                },
+                "lists": {
+                    "$listId": {
+                        ".validate": "root.child('lists').child($listId).exists()"
+                    }
+                }
+            }
+        }
+    }
+}

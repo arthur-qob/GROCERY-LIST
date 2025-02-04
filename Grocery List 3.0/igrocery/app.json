@@ -43,6 +43,18 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "firebase": {
+        "API_KEY": "AIzaSyA2Rdt3yfd2hdstlhgVAPLATaLBC95kwI0",
+        "AUTH_DOMAIN": "igrocery-2c454.firebaseapp.com",
+        "DATABASE_URL": "https://igrocery-2c454-default-rtdb.firebaseio.com",
+        "PROJECT_ID": "igrocery-2c454",
+        "STORAGE_BUCKET": "igrocery-2c454.firebasestorage.app",
+        "MESSAGING_SENDER_ID": "849621336121",
+        "APP_ID": "1:849621336121:web:539a0083d8bec530b8cde8",
+        "MEASUREMENT_ID": "G-7S31SE3P1F"
+      }
     }
   }
 }

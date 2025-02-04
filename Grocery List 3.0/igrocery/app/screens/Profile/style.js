@@ -3,13 +3,6 @@ import { GlobalStyles as globals } from '@/app/global/styles'
 
 const ProfileScreenStyles = StyleSheet.create({
     mainContainer: globals.mainContainer,
-    userInfoContainer: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 25,
-    },
     userDataContainer: {
         width: '90%',
         display: 'flex',
@@ -20,16 +13,12 @@ const ProfileScreenStyles = StyleSheet.create({
         padding: 20,
         gap: 20,
     },
-    userPictureContainer: {
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-    },
-    noProfileImageContainer: {
+    profileImageContainer: {
         width: 150,
         height: 150,
         borderRadius: 10,
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -44,22 +33,6 @@ const ProfileScreenStyles = StyleSheet.create({
     userDataContainerSeparator: {
         width: '100%',
         borderBottomWidth: 1,
-    },
-    warningAlert: {
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 10,
-    },
-    successAlert: {
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 10,
-    },
-    warningText: {
-        color: 'rgb(246, 198, 9)'
-    },
-    successText: {
-        color: 'rgb(52, 200, 91)'
     },
     profileImage: {
         width: 250,

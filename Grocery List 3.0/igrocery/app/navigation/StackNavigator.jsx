@@ -1,12 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import { View, Image, Platform, TouchableOpacity } from 'react-native'
+import { View, Image, Platform, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { SymbolView } from 'expo-symbols'
 import { ThemedText as Text } from '@/components/ThemedText'
-import { auth, storage } from '@/firebaseConfig'
-import { getDownloadURL, ref, uploadBytes, listAll, deleteObject } from 'firebase/storage'
-import { useEffect, useState } from 'react'
+import { useTheme } from '@/contexts/ThemeContext'
+import { useUser } from '@/contexts/UserContext'
+import { useState } from 'react'
 
 const Stack = createStackNavigator()
 
@@ -16,35 +16,17 @@ import Login from '../screens/Login/index'
 import Signup from '../screens/Signup/index'
 import Main from './TabNavigator'
 import Profile from '../screens/Profile/index'
-import { useTheme } from '@/contexts/ThemeContext'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
     const { currentTheme } = useTheme()
     const theme = currentTheme === 'dark' ? 'dark' : 'light'
+    const { user, userImage } = useUser()
+    const [isLoading, setIsLoading] = useState(false)
 
-    const [ user, setUser ] = useState(auth.currentUser || null)
-    const [ userProfileImage, setUserProfileImage ] = useState('')
-
-    const fetchUserProfileImage = async (user) => {
-        const storageRef = ref(storage, `users/${user.uid}/profile.jpg`)
-        try {
-            const url = await getDownloadURL(storageRef)
-            setUserProfileImage(url)
-        } catch (error) {
-            return
-        }
-    }
-
-    useEffect(() => {
-        if (user) {
-            fetchUserProfileImage(user)
-        }
-    }, [ user ])
-    
     return (
         <Stack.Navigator
-            initialRouteName = 'Welcome'
+            initialRouteName = { user ? 'Main' : 'Welcome' }
             screenOptions = {({ route }) => ({
                 headerTransparent: true,
                 headerTitle: '',
@@ -100,10 +82,28 @@ const StackNavigator = () => {
                             <Image
                                 source = { theme === 'light' ? require('@/assets/images/app/light_app_logo.png') : require('@/assets/images/app/dark_app_logo.png') }
                                 style = {{ width: 40, height: 40 }}
+                                onLoadStart = { () => setIsLoading(true) }
+                                onLoadEnd = { () => setIsLoading(false) }
                             />
+                            
+                            {
+                                isLoading && (
+                                    <View style = {{
+                                        width: 40,
+                                        height: 40,
+                                        position: 'absolute',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}>
+                                        <ActivityIndicator size = 'small' color = 'rgb(10, 132, 255)' style = {{ position: 'absolute' }} />
+                                    </View>
+                                )
+                            }
+
                             <Text
-                            lightColor = 'rgb(0, 0, 0)'
-                            darkColor = 'rgb(255, 255, 255)'
+                                lightColor = 'rgb(0, 0, 0)'
+                                darkColor = 'rgb(255, 255, 255)'
                                 style = {{
                                     fontSize: 28,
                                 }}
@@ -112,20 +112,42 @@ const StackNavigator = () => {
                     ),
                     headerRight: () => (
                         <TouchableOpacity style = {{ marginRight: 10 }} onPress = { () => navigation.navigate('Profile') }>
-                            {
-                                userProfileImage ? (
-                                    <Image
-                                        source = {{ uri: userProfileImage }}
-                                        style = {{ width: 35, height: 35, borderRadius: 15 }}
-                                    />
-                                ) : (
-                                    Platform.OS === 'ios' ? (
-                                        <SymbolView name = 'person.circle' size = { 35 } tintColor = 'rgb(10, 132, 255)' />
+                            <View style = {{ width: 50, height: 50, borderRadius: 50, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                {
+                                    userImage ? (
+                                        <>
+                                            <Image
+                                                source = {{ uri: userImage }}
+                                                style = {{ width: 50, height: 50, borderRadius: 50 }}
+                                                onLoadStart = { () => setIsLoading(true) }
+                                                onLoadEnd = { () => setIsLoading(false) }
+                                            />
+
+                                            {
+                                                isLoading && (
+                                                    <View style = {{
+                                                        width: 50,
+                                                        height: 50,
+                                                        borderRadius: 50,
+                                                        position: 'absolute',
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                    }}>
+                                                        <ActivityIndicator size = 'small' color = 'rgb(10, 132, 255)' style = {{ position: 'absolute' }} />
+                                                    </View>
+                                                )
+                                            }
+                                        </>
                                     ) : (
-                                        <Ionicons name = 'person-circle' size = { 35 } color = 'rgb(10, 132, 255)' />
+                                        Platform.OS === 'ios' ? (
+                                            <SymbolView name = 'person.circle' size = { 35 } tintColor = 'rgb(10, 132, 255)' />
+                                        ) : (
+                                            <Ionicons name = 'person-circle' size = { 35 } color = 'rgb(10, 132, 255)' />
+                                        )
                                     )
-                                )
-                            }
+                                }
+                            </View>
                         </TouchableOpacity>
                     ),
                 })}
