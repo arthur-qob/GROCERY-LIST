@@ -1,7 +1,7 @@
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native'
 import { ThemedText as Text } from '@/components/ThemedText'
 
-export function CustomButton({ title, type, style, onPress, ...otherProps }) {
+export function CustomButton({ title, type, style, onPress, loading, ...otherProps }) {
     return (
         <>
             <TouchableOpacity
@@ -12,10 +12,19 @@ export function CustomButton({ title, type, style, onPress, ...otherProps }) {
                 ]}
                 onPress = { onPress }
             >
-                <Text
-                    lightColor = { type === 'primary' ? '#fff' : 'rgb(10, 132, 255)' }
-                    darkColor = { type === 'primary' ? '#fff' : 'rgb(10, 132, 255)' }
-                >{ title }</Text>
+                {
+                    loading ? (
+                        <ActivityIndicator
+                            size = 'small'
+                            color = 'rgb(255, 255, 255)'
+                        />
+                    ) : (
+                        <Text
+                            lightColor = { type === 'primary' ? '#fff' : 'rgb(10, 132, 255)' }
+                            darkColor = { type === 'primary' ? '#fff' : 'rgb(10, 132, 255)' }
+                        >{ title }</Text>
+                    )
+                }
             </TouchableOpacity>
         </>
     )

@@ -1,12 +1,14 @@
 import { StyleSheet } from 'react-native'
+import { GlobalStyles as globals } from '@/app/global/styles'
 
 const WelcomeScreenStyles = StyleSheet.create({
-    mainContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 25,
+    mainContainer: [ globals.mainContainer, {
+        gap: 0
+    } ],
+    logo: {
+        height: 200,
+        width: 200,
+        marginBottom: 50,
     },
     logoContainer: {
         height: 100,

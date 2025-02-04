@@ -1,44 +1,70 @@
-import { StyleSheet, useColorScheme, View, TextInput } from 'react-native'
-// import { ThemedText as Text } from '@/components/ThemedText'
+import { useTheme } from '@/contexts/ThemeContext'
+import { SymbolView } from 'expo-symbols'
+import { useState } from 'react'
+import { StyleSheet, useColorScheme, View, TextInput, Platform, TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-export function CustomTextInput({ type, ...otherProps }) {
-    const theme = useColorScheme() ?? 'light'
+export function CustomTextInput({ type = 'text', ...otherProps }) {
+    // const theme = useColorScheme() ?? 'light'
+    const { currentTheme } = useTheme()
+    const theme = currentTheme === 'dark' ? 'dark' : 'light'
+
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmation, setShowConfirmation] = useState(false)
+
+    const isEmailType = type === 'email'
+    const isPasswordType = type === 'password'
+    const isConfirmationType = type === 'confirmation'
 
     return (
         <View style = { styles.textInputContainer }>
             <TextInput
                 { ...otherProps }
-                style = {{
-                    width: '80%',
-                    height: '100%',
-                }}
+                style = {[ styles.textInput, {
+                    color: theme === 'dark' ? '#ccc' : '#000',
+                } ]}
                 placeholder = {
-                    type === 'confirmation'
+                    isConfirmationType
                         ? 'Confirm Password'
-                        : type.toUpperCase().charAt(0) + type.slice(1)
+                        : type.charAt(0).toUpperCase() + type.slice(1)
                 }
                 placeholderTextColor = { theme === 'dark' ? '#ccc' : '#aaa' }
-                secureTextEntry = { type === 'password' || type === 'confirmation' }
+                keyboardType = { isEmailType ? 'email-address' : 'default' }
+                secureTextEntry = {
+                    (isPasswordType && !showPassword) || (isConfirmationType && !showConfirmation)
+                }
             />
-            { type === 'password' || type === 'confirmation' ? (
-                <View
-                    style = {{
-                        width: '10%',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                > 
-                    <Ionicons
-                        name = "eye"
-                        size = { 24 }
-                        color = { theme === 'dark' ? '#ccc' : '#aaa' }
-                    />
-                </View>
-            ) : null }
+            {(isPasswordType || isConfirmationType) && (
+                <TouchableOpacity
+                    onPress = { () => {
+                        if (isPasswordType) setShowPassword(!showPassword)
+                        if (isConfirmationType) setShowConfirmation(!showConfirmation)
+                    } }
+                    style = { styles.iconContainer }
+                >
+                    { Platform.OS === 'ios' ? (
+                        <SymbolView
+                            name = {
+                                (isPasswordType && showPassword) || (isConfirmationType && showConfirmation)
+                                    ? 'eye.slash'
+                                    : 'eye'
+                            }
+                            size = { 24 }
+                            tintColor = { theme === 'dark' ? '#ccc' : '#aaa' }
+                        />
+                    ) : (
+                        <Ionicons
+                            name = {
+                                (isPasswordType && showPassword) || (isConfirmationType && showConfirmation)
+                                    ? 'eye-off'
+                                    : 'eye'
+                            }
+                            size = { 24 }
+                            color = { theme === 'dark' ? '#ccc' : '#aaa' }
+                        />
+                    )}
+                </TouchableOpacity>
+            )}
         </View>
     )
 }
@@ -52,9 +78,18 @@ const styles = StyleSheet.create({
         margin: 10,
         paddingHorizontal: 10,
         borderRadius: 10,
-        display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    textInput: {
+        flex: 1,
+        height: '100%',
+    },
+    iconContainer: {
+        width: '10%',
+        height: '100%',
+        justifyContent: 'center',
         alignItems: 'center',
     },
 })

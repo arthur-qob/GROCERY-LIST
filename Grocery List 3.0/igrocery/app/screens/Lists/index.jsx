@@ -34,7 +34,7 @@ export default function HomeScreen() {
 
     return (
         <Div style = { styles.mainContainer }>
-            <Text style = { styles.title }>Lists</Text>
+            <Text type = 'title'>Lists</Text>
             <View style = { styles.listsContainer }>
                 
                 <ListBtn lists = { lists } />

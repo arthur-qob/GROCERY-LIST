@@ -1,12 +1,8 @@
 import { StyleSheet } from 'react-native'
+import { GlobalStyles as global } from '@/app/global/styles'
 
 const HomeScreenStyles = StyleSheet.create({
-    mainContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 20
-    },
+    mainContainer: global.mainContainer,
     sectionContainers: {
         width: '100%',
         height: 200,

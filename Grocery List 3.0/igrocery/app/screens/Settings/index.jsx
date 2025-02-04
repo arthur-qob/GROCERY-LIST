@@ -7,16 +7,13 @@ import { useNavigation } from '@react-navigation/native'
 import { Switch, TouchableOpacity, View } from 'react-native'
 import { useTheme } from '@/contexts/ThemeContext'
 import React, { useEffect, useState } from 'react'
+import { Logout } from '@/utils/auth'
 
 export default function SettingsScreen() {
     const navigation = useNavigation()
     const { themeOption, changeTheme } = useTheme()
-    const [ theme, setTheme ] = useState(themeOption)
-    // const theme = themeOption === 'light' ? 'light' : 'dark'
-
-    useEffect(() => {
-        setTheme(themeOption)
-    }, [themeOption])
+    const [ loading, setLoading ] = useState(false)
+    const theme = themeOption === 'light' ? 'light' : 'dark'
 
     const [activeSwitch, setActiveSwitch] = useState(themeOption)
 
@@ -27,9 +24,8 @@ export default function SettingsScreen() {
 
     return (
         <Div style = { styles.mainContainer }>
-            <Text>Settings</Text>
+            <Text type = 'title'>Settings</Text>
 
-            <Text style = { styles.sectionTitle }>Theme</Text>
             <View style = {[ styles.swithTable, {
                 backgroundColor: theme === 'dark' ? 'rgb(28, 28, 30)' : 'rgb(255, 255, 255)',
             } ]}>
@@ -81,12 +77,17 @@ export default function SettingsScreen() {
                 </View>
             </View>
 
-            <Button title = 'Exit' type = 'primary' style = { styles.button } onPress = { () => {
+            <Button title = 'Log Out' type = 'primary' style = { styles.button } loading = { loading } onPress = { () => {
+                setLoading(true)
+                Logout()
+                setTimeout(() => {
+                    setLoading(false)
                     navigation.reset({
                         index: 0,
                         routes: [{ name: 'Welcome', params: { from: 'main' } }],
-                    })
-                } }  />
+                    })    
+                }, 1000)
+            } }  />
         </Div>
     )
 }

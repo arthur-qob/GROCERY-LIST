@@ -1,15 +1,10 @@
 import { StyleSheet } from 'react-native'
+import { GlobalStyles as globals } from '@/app/global/styles'
 
 const ItemsScreenStyles = StyleSheet.create({
-    mainContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: 20
-    },
+    mainContainer: globals.mainContainer,
     searchBar: {
-        width: '80%',
+        width: '90%',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -18,7 +13,7 @@ const ItemsScreenStyles = StyleSheet.create({
     },
     searchBarInput: {
         width: '100%',
-        height: 35,
+        height: 40,
         marginLeft: 5,
         fontSize: 16
     },

@@ -1,12 +1,8 @@
 import { StyleSheet } from 'react-native'
+import { GlobalStyles as globals } from '@/app/global/styles'
 
 const SettingsScreenStyles = StyleSheet.create({
-    mainContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 20
-    },
+    mainContainer: globals.mainContainer,
     sectionTitle: {
         fontSize: 25,
         fontWeight: 'bold',

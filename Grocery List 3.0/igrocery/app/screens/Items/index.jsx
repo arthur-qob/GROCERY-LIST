@@ -43,7 +43,7 @@ export default function ItemsScreen() {
 
     return (
         <Div style  = { styles.mainContainer }>
-            <Text>Items</Text>
+            <Text type = 'title'>Items</Text>
 
             <TouchableOpacity style = {[ styles.searchBar, {
                 backgroundColor: theme === 'light' ? 'rgb(228, 227, 233)' : 'rgb(28, 28, 30)',
