@@ -1,16 +1,20 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { auth, db, storage } from '@/firebaseConfig'
 import { User, onAuthStateChanged } from 'firebase/auth'
-import { ref as dbRef, onValue, set } from 'firebase/database'
+import { ref as dbRef, onValue, set, get } from 'firebase/database'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 const UserContext = createContext(null)
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(auth.currentUser || null)
+    const [userUid, setUserUid] = useState('')
     const [userName, setUserName] = useState('')
+    const [userRole, setUserRole] = useState('')
+    const [userCreatedAt, setUserCreatedAt] = useState('')
     const [userImage, setUserImage] = useState(null)
     const [emailVerified, setEmailVerified] = useState(false)
+    const [UserData, setUserData] = useState({})
 
     // Listen for Firebase Auth state changes
     useEffect(() => {
@@ -31,24 +35,28 @@ export const UserProvider = ({ children }) => {
     // Fetch user's name and profile picture from Firebase
     const fetchUserData = async (firebaseUser) => {
         if (!firebaseUser) return
-
-        // Fetch user name from Realtime Database
-        const userRef = dbRef(db, `users/${firebaseUser.uid}/name`)
-        onValue(userRef, (snapshot) => {
-            const name = snapshot.val()
-            setUserName(name || '')
-        })
-
-        // Fetch profile picture from Firebase Storage
+    
+        setUserUid(firebaseUser.uid)
+    
         try {
+            const nameSnapshot = await get(dbRef(db, `users/${firebaseUser.uid}/name`))
+            setUserName(nameSnapshot.val() || '')
+    
+            const roleSnapshot = await get(dbRef(db, `users/${firebaseUser.uid}/role`))
+            setUserRole(roleSnapshot.val() || '')
+    
+            const createdAtSnapshot = await get(dbRef(db, `users/${firebaseUser.uid}/createdAt`))
+            setUserCreatedAt(createdAtSnapshot.val() || '')
+    
+            // Fetch da imagem no Storage
             const storageRef = ref(storage, `users/${firebaseUser.uid}/profile.jpg`)
             const url = await getDownloadURL(storageRef).catch(() => null)
             setUserImage(url)
+    
+            setEmailVerified(firebaseUser.emailVerified)
         } catch (error) {
-            console.error('Error fetching user image:', error)
+            console.error('Erro ao buscar dados do usuário:', error)
         }
-
-        setEmailVerified(firebaseUser.emailVerified)
     }
 
     // Function to update the user name in Firebase Realtime Database
@@ -81,11 +89,18 @@ export const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value = {{ 
-            user, userName, userImage, emailVerified, 
-            updateUserName, uploadProfileImage 
-        }}>
-            {children}
+        <UserContext.Provider value = {{
+            user,
+            userUid,
+            userName,
+            userRole,
+            userCreatedAt,
+            userImage,
+            emailVerified,
+            updateUserName,
+            uploadProfileImage
+         }}>
+            { children }
         </UserContext.Provider>
     )
 }

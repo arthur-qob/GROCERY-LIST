@@ -12,7 +12,6 @@ export const ThemeProvider = ({ children }) => {
     }
 
     const currentTheme = themeOption === 'system' ? systemTheme : themeOption
-    console.info('currentTheme', currentTheme)
 
     return (
         <ThemeContext.Provider value = {{ themeOption, currentTheme, changeTheme }}>

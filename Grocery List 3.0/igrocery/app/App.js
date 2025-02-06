@@ -15,21 +15,18 @@ export default function App() {
 
     const themePackage = currentTheme === 'light' ? DefaultTheme : DarkTheme
 
-    const [ splashIcon, setSplashIcon ] = useState('')
     const [ loaded, setLoaded ] = useState(false)
 
-    const fetchFonts = async () => {
-        return FontFace.loadAsync({
-            'Poppins-Regular': require('@/assets/fonts/Poppins-Regular.ttf'),
-            'Poppins-Bold': require('@/assets/fonts/Poppins-Bold.ttf'),
-            'Poppins-SemiBold': require('@/assets/fonts/Poppins-SemiBold.ttf'),
-            'Poppins-Medium': require('@/assets/fonts/Poppins-Medium.ttf'),
-            'Poppins-Light': require('@/assets/fonts/Poppins-Light.ttf'),
-            'SFPro-Regular': require('@/assets/fonts/SFPro-Regular.ttf'),
-            'SFPro-Bold': require('@/assets/fonts/SFPro-Bold.ttf'),
-            'SFPro-Medium': require('@/assets/fonts/SFPro-Medium.ttf'),
-        })
-    }
+    const [fontsLoaded] = useFonts({
+        'Poppins-Regular': require('@/assets/fonts/Poppins-Regular.ttf'),
+        'Poppins-Bold': require('@/assets/fonts/Poppins-Bold.ttf'),
+        'Poppins-SemiBold': require('@/assets/fonts/Poppins-SemiBold.ttf'),
+        'Poppins-Medium': require('@/assets/fonts/Poppins-Medium.ttf'),
+        'Poppins-Light': require('@/assets/fonts/Poppins-Light.ttf'),
+        'SFPro-Regular': require('@/assets/fonts/SF-Pro-Rounded-Regular.otf'),
+        'SFPro-Bold': require('@/assets/fonts/SF-Pro-Rounded-Bold.otf'),
+        'SFPro-Medium': require('@/assets/fonts/SF-Pro-Rounded-Medium.otf'),
+    })
 
     // const isDarkTheme = currentTheme === 'dark'
 
@@ -91,18 +88,16 @@ export default function App() {
         const prepareApp = async () => {
             try {
                 await SplashScreen.preventAutoHideAsync()
-                setTimeout(async () => {
-                    await fetchFonts()
-                }, 2000)
+                if (fontsLoaded) {
+                    await SplashScreen.hideAsync()
+                }
             } catch (e) {
                 console.warn(e)
-            } finally {
-                SplashScreen.hideAsync()
             }
         }
 
         prepareApp()
-    }, [])
+    }, [fontsLoaded])
 
     return (
         <>

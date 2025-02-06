@@ -15,8 +15,14 @@
     "android": {
       "package": "com.arthurquinellato.igrocery",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/app/adaptive-icon.png",
+        "foregroundImage": "./assets/images/app/light_app_logo.png",
         "backgroundColor": "#ffffff"
+      },
+      "dark": {
+        "adaptiveIcon": {
+          "foregroundImage": "./assets/images/app/dark_app_logo.png",
+          "backgroundColor": "#000000"
+        }
       }
     },
     "web": {
@@ -32,10 +38,10 @@
           "image": "./assets/images/app/light_app_logo.png",
           "imageWidth": 200,
           "resizeMode": "cover",
-          "backgroundColor": "transparent",
+          "backgroundColor": "#FFFFFF",
           "dark": {
             "image": "./assets/images/app/dark_app_logo.png",
-            "backgroundColor": "transparent",
+            "backgroundColor": "#000000",
             "resizeMode": "cover"
           }
         }

@@ -43,6 +43,25 @@ export default function LoginScreen() {
             setLoading(false)
             return
         }
+
+        if (/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/.test(password)) {
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Password must contain at least 8 characters, 1 uppercase letter, 1 number, and 1 special character'
+            })
+            setLoading(false)
+            return
+        }
+
+        if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Please enter a valid email address'
+            })
+            setLoading(false)
+        }
     
         const signupResponse = await Signup(name, email, password)
         setLoading(false)

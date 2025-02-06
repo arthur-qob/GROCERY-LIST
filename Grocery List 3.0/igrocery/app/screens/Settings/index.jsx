@@ -4,7 +4,7 @@ import { CustomButton as Button } from '@/components/CustomButton'
 // import { Collapsible } from '@/components/Collapsible'
 import styles from './style'
 import { useNavigation } from '@react-navigation/native'
-import { Switch, TouchableOpacity, View } from 'react-native'
+import { Alert, Switch, TouchableOpacity, View } from 'react-native'
 import { useTheme } from '@/contexts/ThemeContext'
 import React, { useEffect, useState } from 'react'
 import { Logout } from '@/utils/auth'
@@ -81,17 +81,25 @@ export default function SettingsScreen() {
                 </View>
             </View>
 
-            <Button title = 'Log Out' type = 'primary' style = { styles.button } loading = { loading } onPress = { async () => {
+            <Button title = 'Log Out' type = 'danger-primary' style = { styles.button } loading = { loading } onPress = { async () => {
                 setLoading(true)
-                await Logout()
-                setTimeout(() => {
-                    setLoading(false)
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Welcome', params: { from: 'main' } }],
-                    })    
-                }, 1000)
-            } }  />
+                
+                Alert.alert('Log Out', 'Are you sure you want to log out?', [
+                    { text: 'Cancel', onPress: () => setLoading(false) },
+                    { text: 'Log Out', style: 'destructive', onPress: async () => {
+                        setLoading(true)
+                        await Logout()
+                        setTimeout(() => {
+                            setLoading(false)
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Welcome', params: { from: 'main' } }],
+                            })    
+                        }, 1000)
+                    } },
+                ])
+                
+            } } />
         </Div>
     )
 }

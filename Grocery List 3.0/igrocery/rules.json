@@ -14,9 +14,9 @@
         },
         "lists": {
             "$listId": {
-                ".read": "auth !== null && (auth.uid === data.child('owner').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
-                ".write": "auth !== null && (auth.uid === data.child('owner').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
-                "owner": {
+                ".read": "auth !== null && (auth.uid === data.child('listId').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+                ".write": "auth !== null && (auth.uid === data.child('listId').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+                "listId": {
                     ".validate": "newData.val() === auth.uid"
                 },
                 "title": {
@@ -24,9 +24,6 @@
                 },
                 "creationDate": {
                     ".validate": "newData.isString() && newData.val().matches(/^\\d{2}-\\d{2}-\\d{4} \\| \\d{2}:\\d{2}:\\d{2}$/)"
-                },
-                "totalQuantity": {
-                    ".validate": "newData.isNumber() && newData.val() >= 0"
                 },
                 "totalAmount": {
                     ".validate": "newData.isNumber() && newData.val() >= 0"

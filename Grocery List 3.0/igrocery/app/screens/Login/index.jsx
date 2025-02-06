@@ -52,7 +52,7 @@ export default function LoginScreen() {
                 onHide: () => {
                     setEmail('')
                     setPassword('')
-                    navigation.navigate('Main')
+                    navigation.navigate('Main', { from: 'auth' })
                 }
             })
         }

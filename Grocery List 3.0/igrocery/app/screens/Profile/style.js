@@ -21,10 +21,12 @@ const ProfileScreenStyles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        gap: 10
     },
     userDataRows: {
         width: '100%',
         display: 'flex',
+        flexWrap: 'wrap',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',

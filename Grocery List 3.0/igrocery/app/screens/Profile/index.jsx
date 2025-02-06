@@ -14,8 +14,7 @@ import { useTheme } from '@/contexts/ThemeContext'
 export default function ProfileScreen() {
     const { currentTheme } = useTheme()
     const theme = currentTheme === 'dark' ? 'dark' : 'light'
-    const { user, userName, userImage, uploadProfileImage } = useUser()
-
+    const { userName, userCreatedAt, userImage, userRole, user, emailVerified, uploadProfileImage } = useUser()
     const [newName, setNewName] = useState('')
     const [pickedImageUri, setPickedImageUri] = useState(userImage || '')
     const [isLoading, setIsLoading] = useState(false)
@@ -80,6 +79,8 @@ export default function ProfileScreen() {
                     text1: 'Error!',
                     text2: 'Failed to upload image!'
                 })
+
+                console.error('Error uploading image:', error)
             }
         }, 1500)
     }
@@ -88,9 +89,7 @@ export default function ProfileScreen() {
         <Div style = { styles.mainContainer }>
             { pickedImageUri ? (
                 <View
-                    style = {[ styles.profileImageContainer, {
-                        backgroundColor: theme === 'dark' ? 'rgb(28, 28, 30)' : 'rgb(255, 255, 255)',
-                    } ]}
+                    style = { styles.profileImageContainer }
                 >
                     <Image
                         source = {{ uri: pickedImageUri }}
@@ -115,12 +114,14 @@ export default function ProfileScreen() {
                     }
                 </View>
             ) : (
-                <View style = { styles.profileImageContainer }>
+                <View style = {[ styles.profileImageContainer, {
+                    backgroundColor: theme === 'dark' ? 'rgb(28, 28, 30)' : 'rgb(255, 255, 255)',
+                } ]}>
                     {
                         Platform.OS === 'ios' ? (
-                            <SymbolView name = 'person.circle' size = { 100 } tintColor = { theme === 'light' ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)' } />
+                            <SymbolView name = 'person.circle' size = { 100 } tintColor = { theme === 'light' ? '#000000' : '#ffffff' } />
                         ) : (
-                            <Ionicons name = 'person-circle' size = { 100 } color = { theme === 'light' ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)' } />
+                            <Ionicons name = 'person-circle' size = { 100 } color = { theme === 'light' ? '#000000' : '#ffffff' } />
                         )
                     }
                     <Text>No profile picture</Text>
@@ -136,7 +137,7 @@ export default function ProfileScreen() {
                 <Button title = 'Pick an Image' type = 'primary' onPress = { pickImage } style = {{
                     width: '35%'
                 }} />
-                <Button title = 'Upload Image' loading = { loading } onPress = { uploadImage } style = {{
+                <Button title = 'Upload Image' type = 'secondary' loading = { loading } onPress = { uploadImage } style = {{
                     width: '35%'
                 }} />
             </View>
@@ -167,11 +168,11 @@ export default function ProfileScreen() {
                             marginTop: 5
                         }}>
                             {
-                                user.emailVerified ? (
+                                emailVerified ? (
                                     <>
                                         {
                                             Platform.OS === 'ios' ? (
-                                                <SymbolView name = 'checkmark.circle' size = { 20 } tintColor = 'rgb(52, 200, 91)' />
+                                                <SymbolView name = 'checkmark.circle' size = { 20 } tintColor = '#34c85b' />
                                             ) : (
                                                 <Ionicons name = 'checkmark-circle' size = { 20 } color = 'rgb(52, 200, 91)' />
                                             )
@@ -182,7 +183,7 @@ export default function ProfileScreen() {
                                     <>
                                         {
                                             Platform.OS === 'ios' ? (
-                                                <SymbolView name = 'exclamationmark.triangle' size = { 20 } tintColor = 'rgb(246, 198, 9)' />
+                                                <SymbolView name = 'exclamationmark.triangle' size = { 20 } tintColor = '#f6c609' />
                                             ) : (
                                                 <Ionicons name = 'exclamationmark-triangle' size = { 20 } color = 'rgb(246, 198, 9)' />
                                             )

@@ -23,10 +23,13 @@ export default function HomeScreen() {
     return (
         <Div style = { styles.mainContainer }>
             <Section style = { styles.sectionContainers }>
+
+                <Text type = 'title' style = { styles.sectionTitles }>THIS SCREEN IS IN DEVELOPMENT</Text>
+
                 <Text type = 'title' style = { styles.sectionTitles }>Quick Actions</Text>
 
                 <View style = { styles.section1BtnsContainer }>
-                    <Button title = 'New list' type = 'primary' style = { styles.section1Btns } />
+                    <Button title = 'New list' type = 'primary' style = { styles.section1Btns } onPress = { () => navigation.navigate('List') } />
                     <Button title = 'New item' type = 'primary' style = { styles.section1Btns } />
                 </View>
 

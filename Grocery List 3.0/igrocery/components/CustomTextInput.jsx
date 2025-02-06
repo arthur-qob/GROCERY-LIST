@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { StyleSheet, useColorScheme, View, TextInput, Platform, TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-export function CustomTextInput({ type = 'text', ...otherProps }) {
+export function CustomTextInput({ type = 'text', placeholder = 'text', style, ...otherProps }) {
     // const theme = useColorScheme() ?? 'light'
     const { currentTheme } = useTheme()
     const theme = currentTheme === 'dark' ? 'dark' : 'light'
@@ -15,21 +15,18 @@ export function CustomTextInput({ type = 'text', ...otherProps }) {
     const isEmailType = type === 'email'
     const isPasswordType = type === 'password'
     const isConfirmationType = type === 'confirmation'
+    const isNumberType = type === 'number'
 
     return (
-        <View style = { styles.textInputContainer }>
+        <View style = {[ styles.textInputContainer, style ? style.width ? { width: style.width } : { width: '80%' } : { width: '80%' } ]}>
             <TextInput
                 { ...otherProps }
                 style = {[ styles.textInput, {
                     color: theme === 'dark' ? '#ccc' : '#000',
                 } ]}
-                placeholder = {
-                    isConfirmationType
-                        ? 'Confirm Password'
-                        : type.charAt(0).toUpperCase() + type.slice(1)
-                }
+                placeholder = { placeholder !== 'text' ? placeholder : (isConfirmationType ? 'Confirm Password' : type.charAt(0).toUpperCase() + type.slice(1)) }
                 placeholderTextColor = { theme === 'dark' ? '#ccc' : '#aaa' }
-                keyboardType = { isEmailType ? 'email-address' : 'default' }
+                keyboardType = { isEmailType ? 'email-address' : isNumberType ? 'numeric' : 'default' }
                 secureTextEntry = {
                     (isPasswordType && !showPassword) || (isConfirmationType && !showConfirmation)
                 }
@@ -71,7 +68,6 @@ export function CustomTextInput({ type = 'text', ...otherProps }) {
 
 const styles = StyleSheet.create({
     textInputContainer: {
-        width: '80%',
         height: 45,
         borderColor: 'gray',
         borderWidth: 1,

@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/ThemeContext'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -5,11 +6,16 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  StatusBar
 } from 'react-native'
 
 export function ThemedView({ style, ...otherProps }) {
+  const { currentTheme } = useTheme()
+  const theme = currentTheme === 'light' ? 'light' : 'dark'
+
   return (
     <SafeAreaView style = { styles.safeArea } { ...otherProps }>
+      <StatusBar barStyle = { theme === 'light' ? 'dark-content' : 'light-content' } />
       <KeyboardAvoidingView
         style = { styles.keyboardAvoidingView }
         behavior = { Platform.OS === 'ios' ? 'padding' : 'height' }
