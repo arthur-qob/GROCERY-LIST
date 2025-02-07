@@ -193,7 +193,8 @@ const StackNavigator = () => {
                     headerStyle: {
                         height: 100
                     },
-                    animation: 'slide_from_right'
+                    animation: 'slide_from_right',
+                    headerTitle: 'New List'
                 }}
             />
         </Stack.Navigator>

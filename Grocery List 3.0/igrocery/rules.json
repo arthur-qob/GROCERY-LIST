@@ -14,24 +14,43 @@
         },
         "lists": {
             "$listId": {
-                ".read": "auth !== null && (auth.uid === data.child('listId').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
-                ".write": "auth !== null && (auth.uid === data.child('listId').val() || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
-                "listId": {
-                    ".validate": "newData.val() === auth.uid"
+                ".read": "auth != null",
+                ".write": "auth != null",
+                ".validate": "newData.child('owner').val() === auth.uid",
+                "owner": {
+                    ".validate": "newData.isString() && newData.val() === auth.uid"
+                },
+                "collaborators": {
+                    "$collaboratorUid": {
+                        ".write": "root.child('lists').child($listId).child('owner').val() === auth.uid",
+                        ".validate": "newData.isString()"
+                    }
                 },
                 "title": {
                     ".validate": "newData.isString() && newData.val().length > 0"
                 },
-                "creationDate": {
-                    ".validate": "newData.isString() && newData.val().matches(/^\\d{2}-\\d{2}-\\d{4} \\| \\d{2}:\\d{2}:\\d{2}$/)"
+                "items": {
+                    "$itemId": {
+                        ".validate": "newData.hasChildren(['title', 'quantity', 'unitPrice'])",
+                        "title": {
+                            ".validate": "newData.isString() && newData.val().length > 0"
+                        },
+                        "quantity": {
+                            ".validate": "newData.isNumber() && newData.val() > 0"
+                        },
+                        "unitPrice": {
+                            ".validate": "newData.isNumber() && newData.val() >= 0"
+                        }
+                    }
+                },
+                "dateCreated": {
+                    ".validate": "newData.isString() && newData.val().length > 0"
                 },
                 "totalAmount": {
                     ".validate": "newData.isNumber() && newData.val() >= 0"
                 },
-                "items": {
-                    "$itemId": {
-                        ".validate": "root.child('items').child($itemId).exists()"
-                    }
+                "numItems": {
+                    ".validate": "newData.isNumber() && newData.val() >= 0"
                 }
             }
         },

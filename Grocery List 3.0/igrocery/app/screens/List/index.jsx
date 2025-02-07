@@ -11,7 +11,7 @@ import { useTheme } from '@/contexts/ThemeContext'
 import { Ionicons } from '@expo/vector-icons'
 import { SymbolView } from 'expo-symbols'
 import { db } from '@/firebaseConfig'
-import { ref, onValue, set, get } from 'firebase/database'
+import { ref, set, push } from 'firebase/database'
 import { useUser } from '@/contexts/UserContext'
 import Toast from 'react-native-toast-message'
 
@@ -28,116 +28,128 @@ export default function ListScreen() {
 
     const [ loading, setLoading ] = useState(false)
 
+    const [ refresh, setRefresh ] = useState(false)
+
+    const handleRefresh = () => {
+        setRefresh(prev => !prev)
+    }
+
     const [listData, setListData] = useState({
         title: '',
         items: [],
-        dateCreated: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }).replace(/[/]/g, '-').split(', ')[0],
+        dateCreated: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }).replace(/[/]/g, '-').replace(', ', ' | '),
         numItems: 0,
         totalAmount: 0,
     } || null)
 
+
     const showAddItemAlert = () => {
         Alert.prompt('Add item', 'Enter item title', (title) => {
             if (title) {
-                Alert.prompt('Add item', 'Enter item quantity', (quantity) => {
-                    if (quantity) {
-                        Alert.prompt('Add item', 'Enter item unit price', (unitPrice) => {
-                            if (unitPrice) {
-                                setListData({
-                                    ...listData,
-                                    items: [
-                                        ...listData.items,
-                                        {
-                                            id: listData.items.length + 1,
-                                            title: title,
-                                            quantity: parseInt(quantity),
-                                            unitPrice: parseFloat(unitPrice),
-                                        }
-                                    ],
-                                    numItems: listData.numItems + parseInt(quantity),
-                                    totalAmount: listData.totalAmount + (parseInt(quantity) * parseFloat(unitPrice)),
-                                })
+                Alert.prompt('Enter item quantity', 'Enter item quantity', (quantity) => {
+                    if (quantity && !isNaN(quantity)) {
+                        Alert.prompt('Enter item unit price', 'Enter item unit price', (unitPrice) => {
+                            if (unitPrice && !isNaN(unitPrice)) {
+                                const newItem = {
+                                    id: listData.items.length + 1,
+                                    title: title,
+                                    quantity: parseInt(quantity),
+                                    unitPrice: parseFloat(unitPrice),
+                                }
+    
+                                setListData(prevListData => ({
+                                    ...prevListData,
+                                    items: [...prevListData.items, newItem],
+                                    numItems: prevListData.numItems + parseInt(quantity),
+                                    totalAmount: prevListData.totalAmount + (parseInt(quantity) * parseFloat(unitPrice)),
+                                }))
+                            } else {
+                                Toast.show({ type: 'error', text1: 'Invalid unit price' })
                             }
                         })
+                    } else {
+                        Toast.show({ type: 'error', text1: 'Invalid quantity' })
                     }
                 })
+            } else {
+                Toast.show({ type: 'error', text1: 'Item title is required' })
             }
         })
     }
 
-    const [ newListTitle, setNewListTitle ] = useState('')
-
     useEffect(() => {
-        if (newListTitle) {
-            setListData({
-                ...listData,
-                title: newListTitle,
-            })
-        }
-    }, [ newListTitle ])
-
-    useEffect(() => {
-        navigation.setOptions({
+        listData.title !== '' && navigation.setOptions({
             headerTitle: listData.title,
         })
+
+        listData.items.length > 0 && console.log('list items', listData.items)
     }, [ listData ])
 
     const handleSaveList = async () => {
-        const userListRef = ref(db, `users/${userUid}/lists`)
-        const listRef = ref(db, `lists${userUid}/${listData.title}`)
+        handleRefresh()
+        console.log('Updating list data')
         const newList = {
             title: listData.title,
+            owner: userUid,
+            collaborators: {
+                [userUid]: 'true',
+            },
             items: listData.items,
             dateCreated: listData.dateCreated,
             totalAmount: listData.totalAmount,
         }
 
         try {
-            await set(listRef, newList)
-            await set(userListRef, newList)
+            const userRef = ref(db, `users/${userUid}/lists`)
+            const listRef = ref(db, 'lists')
+            const newListRef = push(listRef)
 
+            console.log('list id:', newListRef.key)
+            console.log('list data:', newList)
+            console.log('list ref:', newListRef)
+    
+            await set(newListRef, newList)
+            await push(userRef, newListRef.key)
+    
             Toast.show({
                 type: 'success',
                 text1: 'List saved',
-                text2: `${listData.title} saved successfully!`,
+                text2: `"${ listData.title }" saved successfully!`,
             })
-
-            console.log('List saved successfully!')
-
         } catch (e) {
             Toast.show({
                 type: 'error',
                 text1: 'Error saving list',
-                text2: e.message || 'An error occurred while saving the list.',
+                text2: e?.message || 'An error occurred while saving the list.',
             })
-
             console.error(e)
         }
     }
-
+    
     useEffect(() => {
         setLoading(true)
 
+        navigation.setOptions({
+            headerRight: () => (
+                <Button title = 'Save list' onPress = { handleSaveList } />
+            ),
+        })
+    
         setTimeout(() => {
             if (list) {
                 setListData({
                     title: list.title,
                     items: Array.isArray(list.items) ? list.items : [],
                     dateCreated: list.dateCreated,
-                    numItems: listData.items.reduce((total, item) => total + item.quantity, 0),
-                    totalAmount: listData.items.reduce((total, item) => total + (item.unitPrice * item.quantity), 0),
+                    numItems: list.items?.reduce((total, item) => total + item.quantity, 0) || 0,
+                    totalAmount: list.items?.reduce((total, item) => total + (item.unitPrice * item.quantity), 0) || 0,
                 })
             }
     
-            navigation.setOptions({
-                headerRight: () => (
-                    <Button title = 'Save list' onPress = { handleSaveList } />
-                ),
-            })    
-
             setLoading(false)
         }, 2000)
     }, [])
+    
 
     return (
         <Div style = { styles.mainContainer }>
@@ -145,7 +157,11 @@ export default function ListScreen() {
                 loading ? (
                     <ActivityIndicator size = 'small' color = { theme === 'light' ? 'rgb(228, 227, 233)' : 'rgb(142, 142, 147)' } />
                 ) : (
-                    <Input style = {{ width: '90%' }} placeholder = { listData.title ? listData.title : 'Enter list title' } onChangeText = { setNewListTitle } />
+                    <Input style = {{ width: '90%' }} placeholder = { listData.title ? listData.title : 'Enter list title' } onChangeText = {
+                        (text) => { setListData({
+                            ...listData,
+                            title: text,
+                    }) } } />
                 )
             }
             <View style = {[ styles.listDataContainer, {
@@ -158,7 +174,7 @@ export default function ListScreen() {
                         loading ? (
                             <ActivityIndicator size = 'small' color = { theme === 'light' ? 'rgb(228, 227, 233)' : 'rgb(142, 142, 147)' } />
                         ) : (
-                            <Text>{ listData.dateCreated || 'Unknown' }</Text>
+                            <Text>{ (listData.dateCreated).split(' | ')[0] || 'Unknown' }</Text>
                         )
                     }
                 </View>
@@ -173,7 +189,7 @@ export default function ListScreen() {
                         loading ? (
                             <ActivityIndicator size = 'small' color = { theme === 'light' ? 'rgb(228, 227, 233)' : 'rgb(142, 142, 147)' } />
                         ) : (
-                            <Text>{ listData.numItems } { listData.numItems.length === 1 ? 'item' : 'items' }</Text>
+                            <Text>{ listData.numItems } { listData.numItems === 1 ? 'item' : 'items' }</Text>
                         )
                     }
                 </View>

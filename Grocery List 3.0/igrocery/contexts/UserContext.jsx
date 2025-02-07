@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
     const [userCreatedAt, setUserCreatedAt] = useState('')
     const [userImage, setUserImage] = useState(null)
     const [emailVerified, setEmailVerified] = useState(false)
-    const [UserData, setUserData] = useState({})
+    const [userLists, setUserLists] = useState([])
 
     // Listen for Firebase Auth state changes
     useEffect(() => {
@@ -47,6 +47,9 @@ export const UserProvider = ({ children }) => {
     
             const createdAtSnapshot = await get(dbRef(db, `users/${firebaseUser.uid}/createdAt`))
             setUserCreatedAt(createdAtSnapshot.val() || '')
+
+            const userListsSnapshot = await get(dbRef(db, `users/${firebaseUser.uid}/lists`))
+            setUserLists(userListsSnapshot.val() || [])
     
             // Fetch da imagem no Storage
             const storageRef = ref(storage, `users/${firebaseUser.uid}/profile.jpg`)
@@ -98,7 +101,8 @@ export const UserProvider = ({ children }) => {
             userImage,
             emailVerified,
             updateUserName,
-            uploadProfileImage
+            uploadProfileImage,
+            userLists,
          }}>
             { children }
         </UserContext.Provider>
