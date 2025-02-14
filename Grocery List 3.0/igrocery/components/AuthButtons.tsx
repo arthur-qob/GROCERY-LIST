@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native'
-import Ionicons from '@expo/vector-icons/Ionicons'
+// import Ionicons from '@expo/vector-icons/Ionicons'
 
 interface AuthButtonsProps {
     option?: string,
@@ -34,15 +34,19 @@ export function AuthButtons({ option }: AuthButtonsProps) {
             >
                 {
                     loading ? (
-                        <ActivityIndicator size = 'small' color = 'rgb(255, 255, 255)' />
+                        <ActivityIndicator size = { 20 } color = 'rgb(255, 255, 255)' />
                     ) : (
-                        <>
-                            <Ionicons name = { option === 'google' ? 'logo-google' : (option === 'apple' ? 'logo-apple' : (option === 'facebook' ? 'logo-facebook' : 'mail')) } size = { 25 } color = 'rgb(255, 255, 255)' />
-                            <Text style = {{
-                                color: 'rgb(255, 255, 255)',
-                                fontSize: 20,
-                            }}>{ btnTitle }</Text>
-                        </>
+                        // <>
+                        //     <Ionicons name = { option === 'google' ? 'logo-google' : (option === 'apple' ? 'logo-apple' : (option === 'facebook' ? 'logo-facebook' : 'mail')) } size = { 20 } color = 'rgb(255, 255, 255)' />
+                        //     <Text style = {{
+                        //         color: 'rgb(255, 255, 255)',
+                        //         fontSize: 20,
+                        //     }}>{ btnTitle }</Text>
+                        // </>
+                        <Text style = {{
+                            color: 'rgb(255, 255, 255)',
+                            fontSize: 20,
+                        }}>{ btnTitle }</Text>
                     )
                 }
             </TouchableOpacity>
@@ -53,15 +57,15 @@ export function AuthButtons({ option }: AuthButtonsProps) {
 const styles = StyleSheet.create({
     button: {
         width: '90%',
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        borderRadius: 10,
-        backgroundColor: 'rgb(10, 132, 255)',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         gap: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        borderRadius: 10,
+        backgroundColor: 'rgb(10, 132, 255)',
         marginHorizontal: 'auto',
     }
 })
