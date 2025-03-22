@@ -2,12 +2,11 @@ import { useTheme } from '@/contexts/ThemeContext'
 import React from 'react'
 import {
 	ActivityIndicator,
-	ButtonProps,
+	DimensionValue,
 	Platform,
 	PlatformColor,
 	Pressable,
 	PressableProps,
-	processColor,
 	StyleSheet,
 	TextStyle,
 	ViewStyle,
@@ -33,24 +32,29 @@ interface CustomButtonProps extends PressableProps {
 	title?: string
 	variant?: CustomButtonVariants
 	size?: CustomButtonSize
+	width?: number | string
 	style?: ViewStyle
 	disabled?: boolean
 	loading?: boolean
 	onPress?: (param?: any) => any
 	children?: React.ReactNode
 	textStyle?: TextStyle
+	useContrastColors?: boolean
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
 	title = '',
 	variant = 'primary',
 	size = 'md',
+	width = '100%',
 	style,
 	disabled = false,
 	loading = false,
 	onPress,
 	children,
 	textStyle,
+	useContrastColors = false,
+	...otherProps
 }) => {
 	const { currentTheme } = useTheme()
 	const contrastTheme = currentTheme === 'light' ? 'dark' : 'light'
@@ -66,9 +70,13 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 
 	const getVariantStyle = () => {
 		const baseStyle: ViewStyle = {
+			width: width as DimensionValue,
 			borderWidth: 1,
 			borderRadius: 10,
+			display: 'flex',
 			flexDirection: 'row',
+			justifyContent: 'center',
+			alignItems: 'center',
 		}
 
 		switch (variant) {
@@ -151,9 +159,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 
 		switch (variant) {
 			case 'filled':
-				return Platform.OS === 'ios'
-					? PlatformColor(`${currentTheme}Text`)
-					: Colors[contrastTheme].text
+				return Colors[contrastTheme].text
 			case 'danger':
 				return Platform.OS === 'ios'
 					? PlatformColor(`${currentTheme}Text`)
@@ -161,7 +167,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 			case 'outlined':
 				return Platform.OS === 'ios'
 					? PlatformColor('label')
-					: Colors[currentTheme].text
+					: Colors[useContrastColors ? contrastTheme : currentTheme]
+							.text
 			case 'danger-outlined':
 				return Platform.OS === 'ios'
 					? PlatformColor('systemRed')
@@ -169,7 +176,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 			case 'text':
 				return Platform.OS === 'ios'
 					? PlatformColor('label')
-					: Colors[currentTheme].text
+					: Colors[useContrastColors ? contrastTheme : currentTheme]
+							.text
 			case 'danger-text':
 				return Platform.OS === 'ios'
 					? PlatformColor('systemRed')
@@ -177,11 +185,13 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 			case 'icon-button':
 				return Platform.OS === 'ios'
 					? PlatformColor('label')
-					: Colors[currentTheme].text
+					: Colors[useContrastColors ? contrastTheme : currentTheme]
+							.text
 			case 'icon-button-outlined':
 				return Platform.OS === 'ios'
 					? PlatformColor('label')
-					: Colors[currentTheme].text
+					: Colors[useContrastColors ? contrastTheme : currentTheme]
+							.text
 		}
 	}
 
@@ -189,35 +199,36 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 		<Pressable
 			onPress={onPress}
 			disabled={disabled || loading}
-			style={[
+			style={StyleSheet.flatten([
 				style,
-				getVariantStyle(),
 				{
+					...getVariantStyle(),
 					height: sizeStyles[size].height,
 					paddingHorizontal: sizeStyles[size].padding,
 					opacity: disabled ? 0.5 : 1,
-					justifyContent: 'center',
-					alignItems: 'center',
 				},
-			]}>
+			])}>
 			{loading ? (
 				<ActivityIndicator color={getTextColor()} />
 			) : (
-				<Text
-					style={StyleSheet.flatten([
-						{
-							fontSize: sizeStyles[size].fontSize,
-							color: getTextColor(),
-							textAlign: 'center',
-							marginBottom: 0,
-							fontWeight: '700',
-						},
-						textStyle,
-					])}>
-					{title}
-				</Text>
+				<>
+					<Text
+						style={StyleSheet.flatten([
+							{
+								flex: 1,
+								fontSize: sizeStyles[size].fontSize,
+								color: getTextColor(),
+								textAlign: 'center',
+								margin: 0,
+								fontWeight: '700',
+							},
+							textStyle,
+						])}>
+						{title}
+					</Text>
+					{children}
+				</>
 			)}
-			<Text>{children}</Text>
 		</Pressable>
 	)
 }

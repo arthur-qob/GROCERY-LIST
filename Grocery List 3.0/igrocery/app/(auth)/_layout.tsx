@@ -14,12 +14,9 @@ export default function AuthLayout() {
 				headerTransparent: true,
 				headerBackground: () => (
 					<BlurView
-						tint={
-							Platform.OS === 'ios'
-								? 'systemChromeMaterial'
-								: (currentTheme as BlurTint)
-						}
-						intensity={100}
+						tint={`${currentTheme}`}
+						experimentalBlurMethod='dimezisBlurView'
+						intensity={50}
 						style={StyleSheet.absoluteFill}
 					/>
 				),

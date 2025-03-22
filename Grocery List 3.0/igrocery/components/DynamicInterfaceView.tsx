@@ -10,7 +10,6 @@ import {
 	Platform,
 	PlatformColor,
 	StyleSheet,
-	ColorValue,
 	View,
 	ViewStyle,
 } from 'react-native'
@@ -20,15 +19,11 @@ type DynamicInterfaceViewProps = ViewProps &
 	ScrollViewProps &
 	KeyboardAvoidingViewProps & {
 		children?: ReactNode
-		outterContainerStyle?: ViewStyle
-		innerContainerStyle?: ViewStyle
 	}
 
 const DynamicInterfaceView: React.FC<DynamicInterfaceViewProps> = ({
 	children,
 	style,
-	outterContainerStyle,
-	innerContainerStyle,
 	...otherProps
 }) => {
 	const { currentTheme } = useTheme()
@@ -45,32 +40,38 @@ const DynamicInterfaceView: React.FC<DynamicInterfaceViewProps> = ({
 	}
 
 	const styles = StyleSheet.flatten({
-		outterContainer: [
+		mainContainer: [
 			baseStyle,
-			{ paddingHorizontal: 20, paddingTop: 150, backgroundColor },
-			outterContainerStyle,
+			{
+				paddingHorizontal: 20,
+				paddingTop: 150,
+				backgroundColor,
+			},
+			style,
 		],
-		innerContainer: [
-			innerContainerStyle,
-			{ backgroundColor: 'transparent' },
-		],
-		general: [style, { backgroundColor: 'transparent' }],
+		general: [{ flex: 1, backgroundColor: 'transparent' }], // Apply flex:1 here
 	})
 
 	return (
 		<SafeAreaProvider style={styles.general}>
-			<SafeAreaView style={[styles.outterContainer]}>
+			<SafeAreaView style={styles.general}>
 				<KeyboardAvoidingView
 					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 					style={styles.general}>
 					<ScrollView
-						contentContainerStyle={styles.general}
+						contentContainerStyle={{ flexGrow: 1 }} // Ensures children take full height
 						automaticallyAdjustsScrollIndicatorInsets
 						contentInsetAdjustmentBehavior='automatic'
 						contentInset={{ bottom: 0 }}
 						scrollIndicatorInsets={{ bottom: 0 }}
 						{...otherProps}>
-						<View style={styles.innerContainer}>{children}</View>
+						<View
+							style={[
+								styles.mainContainer,
+								{ overflow: 'hidden' },
+							]}>
+							{children}
+						</View>
 					</ScrollView>
 				</KeyboardAvoidingView>
 			</SafeAreaView>
