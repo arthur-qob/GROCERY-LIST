@@ -21,6 +21,7 @@ export default function MainLayout() {
 				),
 			}}>
 			<Tabs.Screen name='index' />
+			<Tabs.Screen name='settings' />
 		</Tabs>
 	)
 }

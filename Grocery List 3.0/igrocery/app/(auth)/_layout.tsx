@@ -1,11 +1,18 @@
 import { Colors } from '@/constants/Colors'
 import { useTheme } from '@/contexts/ThemeContext'
+import { useAuth } from '@clerk/clerk-expo'
 import { BlurTint, BlurView } from 'expo-blur'
-import { Stack } from 'expo-router'
+import { Redirect, Stack } from 'expo-router'
 import { Platform, PlatformColor, processColor, StyleSheet } from 'react-native'
 
 export default function AuthLayout() {
 	const { currentTheme } = useTheme()
+
+	const { isSignedIn } = useAuth()
+
+	if (isSignedIn) {
+		return <Redirect href={'/'} />
+	}
 
 	return (
 		<Stack

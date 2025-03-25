@@ -5,7 +5,8 @@ import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { ClerkProvider } from '@clerk/clerk-expo'
+import { tokenCache } from '@clerk/clerk-expo/token-cache'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -25,9 +26,19 @@ export default function RootLayout() {
 		return null
 	}
 
+	const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+	if (!publishableKey) {
+		throw new Error('Missing Clerk Publishable Key')
+	}
+
 	return (
 		<ThemeProvider>
-			<Slot />
+			<ClerkProvider
+				tokenCache={tokenCache}
+				publishableKey={publishableKey}>
+				<Slot />
+			</ClerkProvider>
 			<StatusBar style='auto' />
 		</ThemeProvider>
 	)
